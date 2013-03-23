@@ -18,8 +18,9 @@ public class Teste {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		// TODO Auto-generated method stub
 
-		RepositorioFilme rep= new RepositorioFilmeExel("teste.xls","Filmes");
+		//RepositorioFilme rep= new RepositorioFilmeExel("teste.xls","Filmes");
 
+		RepositorioFilme rep= new RepositorioFilmeArray();
 		GregorianCalendar gc = new GregorianCalendar();
 
 		Filme filme1 = new Filme("teste1", new Date(0, 0, 0, 1, 30, 20), "Drama", "Livre", "é bom véi");
