@@ -39,7 +39,9 @@ public class RepositorioFilmeArray implements RepositorioFilme{
 	public void remover(String nome) throws FilmeNaoEncontradoException {
 		int inicio = buscarIndice(nome);
 		
-			this.filmes[inicio] = this.filmes[indice-1];
+			this.filmes[inicio] = this.filmes[this.indice-1];
+			this.filmes[this.indice-1] = null;
+			this.indice--;
 		
 	}
 
