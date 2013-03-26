@@ -142,4 +142,17 @@ public class RepositorioFilmeExel implements RepositorioFilme{
 		return  new IteratorFilmeExel(this.folha);		
 	}
 
+	@Override
+	public boolean temFilme(String nome) {
+		boolean retorno = true;
+		
+		try {
+			buscarIndice(nome);
+		} catch (FilmeNaoEncontradoException e) {
+			retorno = false;
+		}
+		
+		return retorno;
+	}
+
 }

@@ -69,4 +69,18 @@ public class RepositorioFilmeArray implements RepositorioFilme{
 		return new IteratorFilmeArray(this.filmes);
 	}
 
+
+	@Override
+	public boolean temFilme(String nome) {
+		boolean retorno = true;
+		
+		try {
+			buscarIndice(nome);
+		} catch (FilmeNaoEncontradoException e) {
+			retorno = false;
+		}
+		
+		return retorno;
+	}
+
 }

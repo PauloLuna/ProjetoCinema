@@ -18,9 +18,9 @@ public class Teste {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		// TODO Auto-generated method stub
 
-		//RepositorioFilme rep= new RepositorioFilmeExel("teste.xls","Filmes");
+		RepositorioFilme rep= new RepositorioFilmeExel("teste.xls","Filmes");
 
-		RepositorioFilme rep= new RepositorioFilmeArray();
+		//RepositorioFilme rep= new RepositorioFilmeArray();
 		GregorianCalendar gc = new GregorianCalendar();
 
 		Filme filme1 = new Filme("teste1", new Date(0, 0, 0, 1, 30, 20), "Drama", "Livre", "é bom véi");
@@ -35,6 +35,10 @@ public class Teste {
 		rep.inserir(filme2);
 		rep.inserir(filme3);
 		rep.inserir(filme);
+		
+		Sessao sessao = new Sessao("1", filme, "sala", teste);
+		
+		
 
 		try {
 			System.out.println(rep.buscar("teste3").getDuracao());
@@ -68,6 +72,20 @@ public class Teste {
 
 			System.out.println("Nome: "+film.getNome()+" Duração: "+film.getDuracao()+
 					"Descrição: "+film.getDescricao());
+		}
+		
+
+		RepositorioSessao repSess = new RepositorioSessaoExel("teste.xls", "Sessoes");
+		
+		
+		try {
+			repSess.inserir(sessao);
+			System.out.println("inserido");
+			repSess.inserir(sessao);
+			System.out.println("não devia aparecer");
+		} catch (SessaoConflitanteException e1) {
+			// TODO Auto-generated catch block
+			System.out.println(e1.getMessage());
 		}
 	}
 }

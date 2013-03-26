@@ -7,11 +7,13 @@ public class Sessao {
 	private String sala;
 	private Date horaInicio;
 	private Date horaFim;
+	private String id;
 
-	public Sessao(Filme filme, String sala, Date horaInicio) {
+	public Sessao(String id,Filme filme, String sala, Date horaInicio) {
 		this.setFilme(filme);
 		this.setHoraInicio(horaInicio);
 		this.setSala(sala);
+		this.setId(id);
 	}
 
 	public Filme getFilme() {
@@ -50,16 +52,24 @@ public class Sessao {
 		return this.horaFim;
 	}
 
-	public int compareTo(Sessao sessao) {
-		int retorno=0;
+	public boolean checaConflito(Sessao sessao) {
+		boolean retorno=true;
 		if(this.sala.equals(sessao.getSala())){
 			if(sessao.horaFim.compareTo(this.horaInicio)==-1){
-				retorno = -1;
+				retorno = false;
 			} else if(sessao.horaInicio.compareTo(this.horaFim)==1){
-				retorno = 1;
+				retorno = false;
 			}
 		}
 		return retorno;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 
