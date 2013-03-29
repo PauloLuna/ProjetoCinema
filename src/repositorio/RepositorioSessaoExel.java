@@ -146,7 +146,7 @@ public class RepositorioSessaoExel implements RepositorioSessao{
 	private int buscarIndice(String id) throws SessaoNaoEncontradaException{
 		int retorno;
 		
-		int apoio = this.folha.getLastRowNum()+1;//Obtém a índice após a ultima linha
+		int apoio = this.folha.getLastRowNum()+2;//Obtém a índice após a ultima linha
 		boolean continua = true;//Checa até a primeira remoção
 		int i;
 		for(i = 0; i< apoio && continua; i++){

@@ -1,33 +1,28 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import negocio.Sessao;
 
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.GridLayout;
-import javax.swing.JCheckBox;
+import java.awt.Image;
 import javax.swing.JToggleButton;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import java.awt.CardLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.SpringLayout;
-import javax.swing.JScrollBar;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.ScrollPaneConstants;
+import java.io.IOException;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JLabel;
+
+
 
 
 public class TesteVendendo extends JDialog {
@@ -65,16 +60,38 @@ public class TesteVendendo extends JDialog {
 			{
 				panel = new JPanel();
 				scrollPane.setViewportView(panel);
-				panel.setLayout(new GridLayout(4, 10, 3, 3));
+				GridBagLayout gbl_panel = new GridBagLayout();
+				gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+				gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+				gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				panel.setLayout(gbl_panel);
+				
 			}
 		}
 		{
-			this.cadeiras = new JToggleButton[20];
-			for(int i = 0; i<20; i++){
-				cadeiras[i] = new JToggleButton("");
-				cadeiras[i].setSelectedIcon(new ImageIcon("C:\\Users\\Paulo\\Desktop\\pastaEclipse\\projetoCinema\\src\\cadeiraVendidapqn.png"));
-				cadeiras[i].setIcon(new ImageIcon("C:\\Users\\Paulo\\Desktop\\pastaEclipse\\projetoCinema\\src\\cadeiraNvendidapqn.png"));
-				panel.add(cadeiras[i]);
+			this.cadeiras = new JToggleButton[30];
+			for(int i = 0; i<5; i++){
+				for(int j =0; j<5; j++){
+					GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+					gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+					gbc_btnNewButton.gridx = j;
+					gbc_btnNewButton.gridy = i*2;
+
+					cadeiras[i*5+j] = new JToggleButton("");
+					cadeiras[i*5+j].setSelectedIcon(new ImageIcon(loadImage("imagem/cadeiraVendidapqn.png")));
+					cadeiras[i*5+j].setIcon(new ImageIcon(loadImage("imagem/cadeiraNvendidapqn.png")));
+					panel.add(cadeiras[i*5+j],gbc_btnNewButton);
+					
+					JLabel lblNewLabel = new JLabel("Cadeira: "+(i*5+j));
+					
+					
+					GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+					gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+					gbc_lblNewLabel.gridx = j;
+					gbc_lblNewLabel.gridy = i*2+1;
+					panel.add(lblNewLabel, gbc_lblNewLabel);
+				}
 			}
 		}
 		{
@@ -94,5 +111,13 @@ public class TesteVendendo extends JDialog {
 			}
 		}
 	}
+	
+	private Image loadImage(String imageName) {    
+		   try {  
+		      return ImageIO.read(getClass().getResource(imageName));  
+		   } catch (IOException e) {  
+		      throw new RuntimeException("Unable to load image " + imageName, e);  
+		   }  
+		}  
 
 }

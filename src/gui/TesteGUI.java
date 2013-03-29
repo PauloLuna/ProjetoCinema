@@ -1,3 +1,5 @@
+package gui;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -43,6 +45,12 @@ public class TesteGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnTeste = new JButton("Administra\u00E7\u00E3o");
+		btnTeste.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaCadastroFilme tela = new TelaCadastroFilme();
+				tela.setVisible(true);
+			}
+		});
 		btnTeste.setBounds(10, 11, 134, 23);
 		contentPane.add(btnTeste);
 		
@@ -50,7 +58,6 @@ public class TesteGUI extends JFrame {
 		btnTeste_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Vendas vendas = new Vendas();
-				//vendas.setVisible(true);
 				vendas.setVisible(true);
 			}
 		});

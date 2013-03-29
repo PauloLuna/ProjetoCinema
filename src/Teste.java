@@ -36,6 +36,8 @@ public class Teste {
 		rep.inserir(filme3);
 		rep.inserir(filme);
 		
+		new TesteTexto();
+		
 		Sessao sessao = new Sessao("1", filme, "sala", teste);
 		
 		
