@@ -12,8 +12,11 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Scanner;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -47,6 +50,7 @@ import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTextPane;
 
 
 public class Vendas extends JFrame {
@@ -55,6 +59,7 @@ public class Vendas extends JFrame {
 	private JTable table;
 	private RepositorioSessao rep;
 	private IteratorSessao itr;
+	private JTextPane textPane;
 
 	/**
 	 * Launch the application.
@@ -78,6 +83,9 @@ public class Vendas extends JFrame {
 	public Vendas() {
 		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 346);
+		
+
+		textPane = new JTextPane();
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -131,27 +139,45 @@ public class Vendas extends JFrame {
 		table.setAutoCreateRowSorter(true);
 		
 		JButton btnVender = new JButton("Vender");
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(2)
+					.addComponent(btnVender, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(321, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(1)
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
 					.addGap(4))
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(2)
-					.addComponent(btnVender, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(321, Short.MAX_VALUE))
+					.addContainerGap()
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(11)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
 					.addComponent(btnVender)
 					.addGap(7))
 		);
+		scrollPane_1.setViewportView(textPane);
+		File file = new File("teste.txt");
+		try {
+			Scanner scn = new Scanner(file);
+			while (scn.hasNextLine()){
+				textPane.setText(textPane.getText()+'\n'+scn.nextLine());
+			}
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		contentPane.setLayout(gl_contentPane);
 		try {
 			rep = new RepositorioSessaoExel("teste.xls", "Sessoes");

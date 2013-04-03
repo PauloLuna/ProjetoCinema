@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
 
 import negocio.Filme;
 
-import fachada.FachadaFilme;
+import fachada.Fachada;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -43,32 +43,15 @@ public class TelaAtualizarFilme extends JDialog {
 	private JSpinner segundosSp;
 	private JComboBox classificacaoCb;
 	private JEditorPane descricaoEp;
-	private FachadaFilme fachada;
+	private Fachada fachada;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			TelaCadastroFilme dialog = new TelaCadastroFilme();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public TelaAtualizarFilme(Filme filme) {
-		
-		try {
-			fachada = new FachadaFilme();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(this, e.getMessage());
-		}
+	public TelaAtualizarFilme(Filme filme, Fachada fachada) {
+				
+		this.fachada = fachada;
 		setTitle("Atualizar filme");
 		setBounds(100, 100, 361, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -169,6 +152,11 @@ public class TelaAtualizarFilme extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						cancelButtonAction();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -186,7 +174,7 @@ public class TelaAtualizarFilme extends JDialog {
 		
 	}
 	
-	public void okButtonAction(){
+	private void okButtonAction(){
 		try {
 			fachada.atualizarFilme(nomeTf.getText(), ((Integer)horasSp.getValue()).intValue(),
 					((Integer)minutoSp.getValue()).intValue(), ((Integer)segundosSp.getValue()).intValue(),
@@ -197,5 +185,9 @@ public class TelaAtualizarFilme extends JDialog {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
+	}
+	
+	private void cancelButtonAction(){
+		this.dispose();
 	}
 }

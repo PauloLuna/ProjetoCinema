@@ -2,27 +2,36 @@ package gui;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
+import fachada.Fachada;
+
 import java.awt.CardLayout;
+import repositorio.*;
 
 public class PanelAdministracao extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelAdministracao() {
+	public PanelAdministracao(Fachada fachada) {
 		setLayout(new CardLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, "name_427372473414371");
 		
-		PanelFilme panel = new PanelFilme();
-		tabbedPane.addTab("Filmes", null, panel, null);
-		
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("Salas", null, panel_2, null);
+		PanelFilme panelFilme = new PanelFilme(fachada);
+		tabbedPane.addTab("Filmes", null, panelFilme, null);
 		
 		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Sessões", null, panel_1, null);
+		tabbedPane.addTab("Salas", null, panel_1, null);
+		
+		PanelSessao panelSessao = new PanelSessao(fachada);
+		tabbedPane.addTab("Sessões", null, panelSessao, null);
+		
+		JPanel panel = new JPanel();
+		tabbedPane.addTab("Relat\u00F3rios", null, panel, null);
+		
+		
 		
 		
 

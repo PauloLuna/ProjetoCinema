@@ -21,7 +21,7 @@ import javax.swing.SpinnerNumberModel;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 
-import fachada.FachadaFilme;
+import fachada.Fachada;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -39,32 +39,15 @@ public class TelaCadastroFilme extends JDialog {
 	private JSpinner segundosSp;
 	private JComboBox classificacaoCb;
 	private JEditorPane descricaoEp;
-	private FachadaFilme fachada;
+	private Fachada fachada;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			TelaCadastroFilme dialog = new TelaCadastroFilme();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	/**
 	 * Create the dialog.
 	 */
-	public TelaCadastroFilme() {
+	public TelaCadastroFilme(Fachada fachada) {
 		
-		try {
-			fachada = new FachadaFilme();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(this, e.getMessage());
-		}
+		this.fachada = fachada;
 		setTitle("Cadastrar filme");
 		setBounds(100, 100, 361, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -156,7 +139,7 @@ public class TelaCadastroFilme extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						okButtonAction();
-					}
+						}
 				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -164,6 +147,12 @@ public class TelaCadastroFilme extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						cancelButtonAction();
+					}
+					
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -171,7 +160,7 @@ public class TelaCadastroFilme extends JDialog {
 		
 	}
 	
-	public void okButtonAction(){
+	private void okButtonAction(){
 		try {
 			fachada.cadastrarFilme(nomeTf.getText(), ((Integer)horasSp.getValue()).intValue(),
 					((Integer)minutoSp.getValue()).intValue(), ((Integer)segundosSp.getValue()).intValue(),
@@ -189,6 +178,12 @@ public class TelaCadastroFilme extends JDialog {
 			JOptionPane.showMessageDialog(this, "Filme cadastrado com sucesso!");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
+		} finally {
+			this.dispose();
 		}
+	}
+	
+	private void cancelButtonAction() {
+		this.dispose();		
 	}
 }

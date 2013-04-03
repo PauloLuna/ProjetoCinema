@@ -1,35 +1,31 @@
 package gui;
 
-import fachada.Fachada;
 import iterator.IteratorFilme;
+import iterator.IteratorSessao;
 
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.TabExpander;
+import javax.swing.table.TableColumn;
+
+import repositorio.FilmeNaoEncontradoException;
 
 import negocio.Filme;
 import negocio.Sessao;
 
-import repositorio.FilmeNaoEncontradoException;
-import repositorio.RepositorioFilme;
+import fachada.Fachada;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-
-public class PanelFilme extends JPanel {
+public class PanelSessao extends JPanel {
 	private JTable table;
 	private DefaultTableModel  modeloTabela;
 	private Fachada fachada;
@@ -37,8 +33,7 @@ public class PanelFilme extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelFilme(Fachada fachada) {
-
+	public PanelSessao(Fachada fachada) {
 		this.fachada = fachada;
 
 		setLayout(new CardLayout(0, 0));
@@ -91,49 +86,48 @@ public class PanelFilme extends JPanel {
 		splitPane.setLeftComponent(scrollPane);
 
 		table = new JTable();
-
-
+		
+		preencheTabela();
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
 		scrollPane.setViewportView(table);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false); 
 		table.setAutoCreateRowSorter(true);
-		
-		
-		preencheTabela();
+		TableColumn codigoColumn = table.getColumnModel().getColumn(0);  
+		codigoColumn.setMinWidth(0);  
+		codigoColumn.setMaxWidth(0);  
+
+
 
 	}
-
+	
+	
 	public void btnInserirAciton(){
 
-		TelaCadastroFilme cadastra = new TelaCadastroFilme(this.fachada);
-		cadastra.setVisible(true);
+		//TelaCadastroFilme cadastra = new TelaCadastroFilme();
+		//cadastra.setVisible(true);
 	}
 
 	public void btnAtualizarAction(){
 
-		int linha = table.getSelectedRow();
+		/*int linha = table.getSelectedRow();
 		String nomeFilme = (String)table.getValueAt(linha, 0);
 		Filme filme;
 		try {
 			filme = fachada.buscarFilme(nomeFilme);
-			TelaAtualizarFilme atualiza = new TelaAtualizarFilme(filme, this.fachada);
-			atualiza.setVisible(true);
 		} catch (FilmeNaoEncontradoException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());			
-		}
-		
-		
+		}*/
 
 
 	}
 
 	public void btnRemoverAction(){
 		int linha = table.getSelectedRow();
-		String nomeFilme = (String)table.getValueAt(linha, 0);
+		String idSessao = (String)table.getValueAt(linha, 0);
 		try {
-			fachada.removerFilme(nomeFilme);
+			fachada.removerSessao(idSessao);
 			JOptionPane.showMessageDialog(this, "Filme excluido com sucesso!");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -141,14 +135,16 @@ public class PanelFilme extends JPanel {
 		} 
 	}
 
+
 	private void preencheTabela(){
-		
+
 		modeloTabela = new DefaultTableModel(
 				new Object[][] {
 				},
 				new String[] {
-						"Nome", "Dura\u00E7\u00E3o", "Classifica\u00E7\u00E3o", "Categoria", "Descri\u00E7\u00E3o"
+						"id","Filme", "Inicio", "Fim", "Classifica\u00E7\u00E3o", "Categoria"
 				}){
+
 			
 			public Class getColumnClass(int columnIndex) {
 				return String.class;
@@ -159,20 +155,22 @@ public class PanelFilme extends JPanel {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}};
-			
-		IteratorFilme itr = fachada.getIteratorFilme();
-		SimpleDateFormat df;
-		df = new SimpleDateFormat("HH:mm:ss");
-		while(itr.hasNext()){
-			Filme filme = itr.next();
-			String nome = filme.getNome();
-			String duracao = df.format(filme.getDuracao());
-			String categoria = filme.getCategoria();
-			String classifica = filme.getClassificacao();
-			String descricao = filme.getDescricao();
-			modeloTabela.addRow(new Object[]{nome,duracao,classifica,categoria,descricao});
-		}
-		
-		table.setModel(modeloTabela);
+
+			IteratorSessao itr = fachada.getIteratorSessao();
+			SimpleDateFormat df;
+			df = new SimpleDateFormat("HH:mm:ss");
+			while(itr.hasNext()){
+				Sessao sessao = itr.next();
+				String id = sessao.getId();
+				String filme = sessao.getFilme().getNome();
+				String inicio = df.format(sessao.getHoraInicio());
+				String fim = df.format(sessao.getHoraFim());
+				String classifica = sessao.getFilme().getClassificacao();
+				String categoria = sessao.getFilme().getDescricao();
+				modeloTabela.addRow(new Object[]{id,filme,inicio,fim,classifica,categoria});
+			}
+
+			table.setModel(modeloTabela);
 	}
+
 }
