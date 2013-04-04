@@ -15,8 +15,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.TabExpander;
 
-import negocio.Filme;
-import negocio.Sessao;
+import basicas.Filme;
+import basicas.Sessao;
+
 
 import repositorio.FilmeNaoEncontradoException;
 import repositorio.RepositorioFilme;
@@ -117,23 +118,19 @@ public class PanelFilme extends JPanel {
 		String nomeFilme = (String)table.getValueAt(linha, 0);
 		Filme filme;
 		try {
-			filme = fachada.buscarFilme(nomeFilme);
+			filme = fachada.getCadFilme().buscarFilme(nomeFilme);
 			TelaAtualizarFilme atualiza = new TelaAtualizarFilme(filme, this.fachada);
 			atualiza.setVisible(true);
 		} catch (FilmeNaoEncontradoException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());			
 		}
-		
-		
-
-
 	}
 
 	public void btnRemoverAction(){
 		int linha = table.getSelectedRow();
 		String nomeFilme = (String)table.getValueAt(linha, 0);
 		try {
-			fachada.removerFilme(nomeFilme);
+			fachada.getCadFilme().removerFilme(nomeFilme);
 			JOptionPane.showMessageDialog(this, "Filme excluido com sucesso!");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -160,7 +157,7 @@ public class PanelFilme extends JPanel {
 				return false;
 			}};
 			
-		IteratorFilme itr = fachada.getIteratorFilme();
+		IteratorFilme itr = fachada.getCadFilme().getIteratorFilme();
 		SimpleDateFormat df;
 		df = new SimpleDateFormat("HH:mm:ss");
 		while(itr.hasNext()){

@@ -3,8 +3,9 @@ import iterator.IteratorFilme;
 import java.io.*;
 import java.util.*;
 
+import basicas.*;
+
 import repositorio.*;
-import negocio.*;
 
 
 public class Teste {
@@ -38,7 +39,7 @@ public class Teste {
 		
 		new TesteTexto();
 		
-		Sessao sessao = new Sessao("1", filme, "sala", teste);
+		//Sessao sessao = new Sessao("1", filme, "sala", teste);
 		
 		
 
@@ -80,7 +81,7 @@ public class Teste {
 		RepositorioSessao repSess = new RepositorioSessaoExel("teste.xls", "Sessoes");
 		
 		
-		try {
+		/*try {
 			repSess.inserir(sessao);
 			System.out.println("inserido");
 			repSess.inserir(sessao);
@@ -88,6 +89,6 @@ public class Teste {
 		} catch (SessaoConflitanteException e1) {
 			// TODO Auto-generated catch block
 			System.out.println(e1.getMessage());
-		}
+		}*/
 	}
 }

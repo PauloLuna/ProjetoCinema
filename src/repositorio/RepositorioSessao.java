@@ -5,7 +5,8 @@ import iterator.IteratorSessao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import negocio.Sessao;
+import basicas.Sessao;
+
 
 public interface RepositorioSessao {
 

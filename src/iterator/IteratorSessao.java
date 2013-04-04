@@ -1,6 +1,6 @@
 package iterator;
 
-import negocio.Sessao;
+import basicas.Sessao;
 
 public interface IteratorSessao {
 	

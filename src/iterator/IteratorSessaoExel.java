@@ -5,8 +5,9 @@ import java.util.Date;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import negocio.Filme;
-import negocio.Sessao;
+import basicas.Filme;
+import basicas.Sessao;
+
 
 public class IteratorSessaoExel implements IteratorSessao {
 

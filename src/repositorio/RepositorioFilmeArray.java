@@ -1,8 +1,8 @@
 package repositorio;
 
+import basicas.Filme;
 import iterator.IteratorFilme;
 import iterator.IteratorFilmeArray;
-import negocio.Filme;
 
 public class RepositorioFilmeArray implements RepositorioFilme{
 	private int indice;

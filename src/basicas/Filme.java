@@ -1,4 +1,4 @@
-package negocio;
+package basicas;
 
 import java.util.Date;
 

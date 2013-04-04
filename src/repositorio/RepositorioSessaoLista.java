@@ -1,8 +1,8 @@
 package repositorio;
 
+import basicas.Sessao;
 import iterator.IteratorSessao;
 import iterator.IteratorSessaoLista;
-import negocio.Sessao;
 
 public class RepositorioSessaoLista implements RepositorioSessao {
 

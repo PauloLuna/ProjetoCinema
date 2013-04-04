@@ -39,8 +39,6 @@ import javax.swing.JScrollPane;
 
 
 
-import negocio.Filme;
-import negocio.Sessao;
 
 import repositorio.*;
 import javax.swing.JButton;
@@ -51,6 +49,9 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextPane;
+
+import basicas.Filme;
+import basicas.Sessao;
 
 
 public class Vendas extends JFrame {

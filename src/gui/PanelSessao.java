@@ -18,10 +18,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import basicas.Filme;
+import basicas.Sessao;
+
 import repositorio.FilmeNaoEncontradoException;
 
-import negocio.Filme;
-import negocio.Sessao;
 
 import fachada.Fachada;
 
@@ -127,7 +128,7 @@ public class PanelSessao extends JPanel {
 		int linha = table.getSelectedRow();
 		String idSessao = (String)table.getValueAt(linha, 0);
 		try {
-			fachada.removerSessao(idSessao);
+			fachada.getCadSessao().removerSessao(idSessao);
 			JOptionPane.showMessageDialog(this, "Filme excluido com sucesso!");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -142,7 +143,7 @@ public class PanelSessao extends JPanel {
 				new Object[][] {
 				},
 				new String[] {
-						"id","Filme", "Inicio", "Fim", "Classifica\u00E7\u00E3o", "Categoria"
+						"id","Titulo", "Inicio", "Fim"
 				}){
 
 			
@@ -156,18 +157,16 @@ public class PanelSessao extends JPanel {
 				return false;
 			}};
 
-			IteratorSessao itr = fachada.getIteratorSessao();
+			IteratorSessao itr = fachada.getCadSessao().getIteratorSessao();
 			SimpleDateFormat df;
 			df = new SimpleDateFormat("HH:mm:ss");
 			while(itr.hasNext()){
 				Sessao sessao = itr.next();
 				String id = sessao.getId();
-				String filme = sessao.getFilme().getNome();
+				String filme = sessao.getTitulo();
 				String inicio = df.format(sessao.getHoraInicio());
 				String fim = df.format(sessao.getHoraFim());
-				String classifica = sessao.getFilme().getClassificacao();
-				String categoria = sessao.getFilme().getDescricao();
-				modeloTabela.addRow(new Object[]{id,filme,inicio,fim,classifica,categoria});
+				modeloTabela.addRow(new Object[]{id,filme,inicio,fim});
 			}
 
 			table.setModel(modeloTabela);

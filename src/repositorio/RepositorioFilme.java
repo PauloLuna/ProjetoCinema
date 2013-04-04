@@ -5,7 +5,8 @@ import iterator.IteratorFilme;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import negocio.Filme;
+import basicas.Filme;
+
 
 
 public interface RepositorioFilme {

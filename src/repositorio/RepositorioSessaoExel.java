@@ -12,8 +12,9 @@ import java.util.Date;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.hssf.usermodel.*;
 
-import negocio.Filme;
-import negocio.Sessao;
+import basicas.Filme;
+import basicas.Sessao;
+
 
 public class RepositorioSessaoExel implements RepositorioSessao{
 

@@ -1,8 +1,8 @@
 package repositorio;
 
+import basicas.Sessao;
 import iterator.IteratorSessao;
 import iterator.IteratorSessaoArray;
-import negocio.Sessao;
 
 public class RepositorioSessaoArray implements RepositorioSessao{
 	private int indice;

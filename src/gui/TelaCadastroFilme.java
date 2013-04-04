@@ -162,7 +162,7 @@ public class TelaCadastroFilme extends JDialog {
 	
 	private void okButtonAction(){
 		try {
-			fachada.cadastrarFilme(nomeTf.getText(), ((Integer)horasSp.getValue()).intValue(),
+			fachada.getCadFilme().cadastrarFilme(nomeTf.getText(), ((Integer)horasSp.getValue()).intValue(),
 					((Integer)minutoSp.getValue()).intValue(), ((Integer)segundosSp.getValue()).intValue(),
 					(String)classificacaoCb.getItemAt(classificacaoCb.getSelectedIndex()),
 					categoriaTf.getText(), descricaoEp.getText());

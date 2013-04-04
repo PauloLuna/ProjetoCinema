@@ -21,7 +21,8 @@ import javax.swing.SpinnerNumberModel;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 
-import negocio.Filme;
+import basicas.Filme;
+
 
 import fachada.Fachada;
 
@@ -176,7 +177,7 @@ public class TelaAtualizarFilme extends JDialog {
 	
 	private void okButtonAction(){
 		try {
-			fachada.atualizarFilme(nomeTf.getText(), ((Integer)horasSp.getValue()).intValue(),
+			fachada.getCadFilme().atualizarFilme(nomeTf.getText(), ((Integer)horasSp.getValue()).intValue(),
 					((Integer)minutoSp.getValue()).intValue(), ((Integer)segundosSp.getValue()).intValue(),
 					(String)classificacaoCb.getItemAt(classificacaoCb.getSelectedIndex()),
 					categoriaTf.getText(), descricaoEp.getText());
