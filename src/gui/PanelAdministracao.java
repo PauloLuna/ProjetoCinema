@@ -28,8 +28,8 @@ public class PanelAdministracao extends JPanel {
 		PanelSessao panelSessao = new PanelSessao(fachada);
 		tabbedPane.addTab("Sessões", null, panelSessao, null);
 		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("Relat\u00F3rios", null, panel, null);
+		JPanel panelRelatorio = new PanelRelatorio();
+		tabbedPane.addTab("Relat\u00F3rios", null, panelRelatorio, null);
 		
 		
 		

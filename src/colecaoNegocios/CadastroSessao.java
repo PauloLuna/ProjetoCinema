@@ -11,8 +11,8 @@ public class CadastroSessao {
 	
 	private RepositorioSessao repSessao;
 	
-	public CadastroSessao() throws IOException{
-		this.repSessao = new RepositorioSessaoExel("repositorios/sessoes.xls", "Sessoes");
+	public CadastroSessao(RepositorioSessao repSessao) throws IOException{
+		this.repSessao = repSessao;
 	}
 	
 	public IteratorSessao getIteratorSessao() {

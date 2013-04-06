@@ -8,6 +8,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileView;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JList;
@@ -52,6 +55,8 @@ import javax.swing.JTextPane;
 
 import basicas.Filme;
 import basicas.Sessao;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class Vendas extends JFrame {
@@ -140,15 +145,18 @@ public class Vendas extends JFrame {
 		table.setAutoCreateRowSorter(true);
 		
 		JButton btnVender = new JButton("Vender");
+		btnVender.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abreChoser();
+			}
+
+			
+		});
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(2)
-					.addComponent(btnVender, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(321, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(1)
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
@@ -157,10 +165,14 @@ public class Vendas extends JFrame {
 					.addContainerGap()
 					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
 					.addContainerGap())
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(2)
+					.addComponent(btnVender, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(341, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
@@ -191,7 +203,7 @@ public class Vendas extends JFrame {
 		SimpleDateFormat df;
 		df = new SimpleDateFormat("HH:mm:ss");
 	
-		while(itr.hasNext()){
+	/*	while(itr.hasNext()){
 			Sessao sessao = itr.next();
 			String id = sessao.getId();
 			String nome = sessao.getFilme().getNome();
@@ -202,7 +214,7 @@ public class Vendas extends JFrame {
 			String classifica = sessao.getFilme().getClassificacao();
 			String descricao = sessao.getFilme().getDescricao();
 			modeloTabela.addRow(new Object[]{nome,sala, inicio,duracao,classifica,categoria,descricao});
-		}
+		}*/
 		
 		
 	}
@@ -223,5 +235,39 @@ public class Vendas extends JFrame {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	
+	private void abreChoser() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setMultiSelectionEnabled(false);
+		chooser.setFileFilter(new FileFilter() {
+			
+			@Override
+			public String getDescription() {
+				// TODO Auto-generated method stub
+				return ".txt";
+			}
+			
+			@Override
+			public boolean accept(File f) {
+				
+				return f.getName().endsWith(".txt")||f.isDirectory();
+			}
+		});
+		
+		
+		String texto=""; 
+
+		if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+		   File files = chooser.getSelectedFile(); 
+		   if (files != null) {
+		       texto = files.getAbsolutePath();
+		       if(!texto.endsWith(".txt"))texto+=".txt";
+		   }
+		   
+		}
+		System.out.println(texto);
+
+		
 	}
 }

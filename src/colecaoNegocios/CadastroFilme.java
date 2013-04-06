@@ -12,14 +12,13 @@ import basicas.Filme;
 import repositorio.FilmeJaExistenteException;
 import repositorio.FilmeNaoEncontradoException;
 import repositorio.RepositorioFilme;
-import repositorio.RepositorioFilmeExel;
 
 public class CadastroFilme {
 
 	private RepositorioFilme repFilme;
 
-	public CadastroFilme() throws IOException{
-		this.repFilme = new RepositorioFilmeExel("repositorios/filmes.xls", "Filmes");
+	public CadastroFilme(RepositorioFilme repFilme) throws IOException{
+		this.repFilme = repFilme;
 	}
 
 	public void cadastrarFilme(String nome, int hs, int min, int seg, String classificacao, String categoria, String descricao) throws FileNotFoundException, IOException, FilmeJaExistenteException{
