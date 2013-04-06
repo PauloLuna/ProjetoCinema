@@ -97,6 +97,14 @@ public class Fachada {
 		RepositorioRelatorio repRelatorio = new RepositorioRelatorio();
 		cadFilme = new CadastroFilme(repFilme);
 		cadSessao = new CadastroSessao(repSessao);
-		controleRelatorios = new ControleRelatorios(repRelatorio);
+		setControleRelatorios(new ControleRelatorios(repRelatorio));
+	}
+
+	public ControleRelatorios getControleRelatorios() {
+		return controleRelatorios;
+	}
+
+	public void setControleRelatorios(ControleRelatorios controleRelatorios) {
+		this.controleRelatorios = controleRelatorios;
 	}
 }

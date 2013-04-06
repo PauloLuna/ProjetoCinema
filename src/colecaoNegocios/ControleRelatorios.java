@@ -1,5 +1,6 @@
 package colecaoNegocios;
 
+import iterator.IteratorRelatorio;
 import repositorio.RepositorioRelatorio;
 
 public class ControleRelatorios {
@@ -16,5 +17,9 @@ public class ControleRelatorios {
 
 	public void setRepRelatorio(RepositorioRelatorio repRelatorio) {
 		this.repRelatorio = repRelatorio;
+	}
+	
+	public IteratorRelatorio getIteratorRelatorio(){
+		return this.repRelatorio.getIterator();
 	}
 }
