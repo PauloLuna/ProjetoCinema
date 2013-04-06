@@ -26,7 +26,9 @@ public class PanelRelatorio extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelRelatorio() {
+	public PanelRelatorio(Fachada fachada) {
+		this.fachada = fachada;
+		
 		setLayout(new CardLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
@@ -50,7 +52,8 @@ public class PanelRelatorio extends JPanel {
 		
 		table = new JTable();
 		
-		table.setModel(modeloTabela);
+		preencheTabela();
+		
 		scrollPane.setViewportView(table);
 
 	}
@@ -72,8 +75,8 @@ private void preencheTabela(){
 			};
 			
 		IteratorRelatorio itr = fachada.getControleRelatorios().getIteratorRelatorio();
-		SimpleDateFormat df;
-		df = new SimpleDateFormat("HH:mm:ss");
+//		SimpleDateFormat df;
+//		df = new SimpleDateFormat("HH:mm:ss");
 		while(itr.hasNext()){
 			Relatorio rel = itr.next();
 			String sala = rel.getNomeSala();

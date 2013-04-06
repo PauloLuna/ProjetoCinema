@@ -1,7 +1,6 @@
 package repositorio;
 
 import iterator.IteratorRelatorio;
-import iterator.IteratorRelatorio;
 import basicas.Relatorio;
 
 

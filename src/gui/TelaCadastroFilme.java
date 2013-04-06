@@ -69,7 +69,7 @@ public class TelaCadastroFilme extends JDialog {
 		lblNewLabel.setBounds(22, 63, 74, 14);
 		contentPanel.add(lblNewLabel);
 		
-		SpinnerNumberModel modelHs = new SpinnerNumberModel(0,0,99,1);
+		SpinnerNumberModel modelHs = new SpinnerNumberModel(0,0,23,1);
 		
 		horasSp = new JSpinner();
 		horasSp.setModel(modelHs);
