@@ -1,2 +1,2 @@
 //Arquivo de configuração dos repositórios. Opções possíveis: TAD (para estruturas de dados), Arquivo, Array
-TAD
+Arquivo

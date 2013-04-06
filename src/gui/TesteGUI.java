@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
@@ -43,6 +45,11 @@ public class TesteGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public TesteGUI() {
+//		try {
+//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+//		} catch (Exception e2) {
+//			System.out.println(e2.getMessage());
+//		} 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 170, 128);
 		contentPane = new JPanel();
