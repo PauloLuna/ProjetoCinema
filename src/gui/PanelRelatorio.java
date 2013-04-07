@@ -37,18 +37,7 @@ public class PanelRelatorio extends JPanel {
 	 */
 	public PanelRelatorio(Fachada fachada) {
 		this.fachada = fachada;
-		Relatorio relatorio = new Relatorio("123", new Date(91208939), "muitolouco2");
-		try {
-			this.fachada.getControleRelatorios().inserirRelatorio("456", "v1d4 l0k4");
-		} catch (IOException e1) {
-			JOptionPane.showMessageDialog(this, e1.getMessage());
-		}
-		try {
-			fachada.getControleRelatorios().serializar();
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(this, "xiii "+e.getMessage());
-		}
-		
+			
 		setLayout(new CardLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();

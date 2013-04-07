@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
@@ -18,7 +19,11 @@ import basicas.Relatorio;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.StringTokenizer;
 
 public class TelaRelatorio extends JFrame {
 
@@ -63,7 +68,8 @@ public class TelaRelatorio extends JFrame {
 	}
 
 	private void botaoSalvarAction() {
-		abreChoser();
+		String nomeArquivo = abreChoser();
+		escreveArquivo(nomeArquivo);
 	}
 
 	private String abreChoser() {
@@ -98,4 +104,26 @@ public class TelaRelatorio extends JFrame {
 		return texto;
 	}
 
+	private void escreveArquivo(String nomeArquivo){
+		System.out.println(nomeArquivo);
+		File file = new File(nomeArquivo);
+		FileWriter fwArquivo;
+		BufferedWriter bwArquivo;
+		StringTokenizer st = new StringTokenizer(this.textPane.getText(),"\n");
+		
+		try {
+			fwArquivo = new FileWriter(file);
+			bwArquivo = new BufferedWriter(fwArquivo);
+			while(st.hasMoreElements()){
+				bwArquivo.write(st.nextToken());
+				bwArquivo.newLine();
+			}
+			
+			bwArquivo.close();
+			fwArquivo.close();
+			
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+	}
 }

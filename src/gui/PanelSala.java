@@ -5,6 +5,8 @@ import iterator.IteratorFilme;
 
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.ListSelectionModel;
+
 import java.awt.CardLayout;
 import java.text.SimpleDateFormat;
 
@@ -38,6 +40,11 @@ public class PanelSala extends JPanel {
 		splitPane.setLeftComponent(scrollPane);
 
 		table = new JTable();
+		table.setShowVerticalLines(false);
+		table.setShowHorizontalLines(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setReorderingAllowed(false); 
+		table.setAutoCreateRowSorter(true);
 		
 		preencheTabela();
 		
