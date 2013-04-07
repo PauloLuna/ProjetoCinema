@@ -1,8 +1,9 @@
 package basicas;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Relatorio {
+public class Relatorio implements Serializable{
 	private String nomeSala;
 	private Date dataCriacao;
 	private String texto;

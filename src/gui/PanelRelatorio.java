@@ -4,10 +4,15 @@ import fachada.Fachada;
 import iterator.IteratorFilme;
 import iterator.IteratorRelatorio;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.ListSelectionModel;
+
 import java.awt.CardLayout;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,8 +20,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JButton;
 
+import repositorio.RelatorioNaoEncontradoException;
+
 import basicas.Filme;
 import basicas.Relatorio;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelRelatorio extends JPanel {
 	private JTable table;
@@ -28,6 +37,17 @@ public class PanelRelatorio extends JPanel {
 	 */
 	public PanelRelatorio(Fachada fachada) {
 		this.fachada = fachada;
+		Relatorio relatorio = new Relatorio("123", new Date(91208939), "muitolouco2");
+		try {
+			this.fachada.getControleRelatorios().inserirRelatorio("456", "v1d4 l0k4");
+		} catch (IOException e1) {
+			JOptionPane.showMessageDialog(this, e1.getMessage());
+		}
+		try {
+			fachada.getControleRelatorios().serializar();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "xiii "+e.getMessage());
+		}
 		
 		setLayout(new CardLayout(0, 0));
 		
@@ -40,6 +60,11 @@ public class PanelRelatorio extends JPanel {
 		panel_1.setLayout(null);
 		
 		JButton btnLer = new JButton("Ler");
+		btnLer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				botaoLerAction();
+			}
+		});
 		btnLer.setBounds(10, 51, 89, 23);
 		panel_1.add(btnLer);
 		
@@ -56,6 +81,12 @@ public class PanelRelatorio extends JPanel {
 		
 		scrollPane.setViewportView(table);
 
+		table.setShowHorizontalLines(false);
+		table.setShowVerticalLines(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setReorderingAllowed(false); 
+		table.setAutoCreateRowSorter(true);
+
 	}
 	
 	
@@ -70,7 +101,13 @@ private void preencheTabela(){
 			) {
 				
 				public Class getColumnClass(int columnIndex) {
-					return String.class;
+					Class retorno = String.class;
+					if (columnIndex == 1) retorno = Date.class;
+					return retorno;
+				}
+				
+				public boolean isCellEditable(int row, int column) {
+					return false;
 				}
 			};
 			
@@ -80,11 +117,27 @@ private void preencheTabela(){
 		while(itr.hasNext()){
 			Relatorio rel = itr.next();
 			String sala = rel.getNomeSala();
-			String dataGeracao = rel.getDataCriacao().toString();
+			Date dataGeracao = rel.getDataCriacao();
 			modeloTabela.addRow(new Object[]{sala,dataGeracao});
 		}
 		
 		table.setModel(modeloTabela);
+		
 	}
-	
+
+	public void botaoLerAction(){
+		String nomeSala = (String)table.getValueAt(table.getSelectedRow(),0);
+		Relatorio rel;
+		try {
+			rel = fachada.getControleRelatorios().buscarRelatorio(nomeSala);
+			TelaRelatorio tela = new TelaRelatorio(rel);
+			tela.setTitle(nomeSala+" Criado em: "+rel.getDataCriacao());
+			tela.setVisible(true);
+		} catch (RelatorioNaoEncontradoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 }

@@ -82,14 +82,8 @@ public class TesteGUI extends JFrame {
 		});
 		btnTeste_1.setBounds(10, 45, 134, 23);
 		contentPane.add(btnTeste_1);
+			
 		
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnNewButton.setBounds(10, 11, 89, 23);
 	}
+	
 }

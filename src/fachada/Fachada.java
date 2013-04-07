@@ -94,10 +94,9 @@ public class Fachada {
 			throw new RuntimeException("Erro ainda vou criar a excessão mas deu merda");
 		}
 		
-		RepositorioRelatorio repRelatorio = new RepositorioRelatorio();
 		cadFilme = new CadastroFilme(repFilme);
 		cadSessao = new CadastroSessao(repSessao);
-		setControleRelatorios(new ControleRelatorios(repRelatorio));
+		setControleRelatorios(new ControleRelatorios());
 	}
 
 	public ControleRelatorios getControleRelatorios() {
