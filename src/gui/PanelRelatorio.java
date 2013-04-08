@@ -37,7 +37,13 @@ public class PanelRelatorio extends JPanel {
 	 */
 	public PanelRelatorio(Fachada fachada) {
 		this.fachada = fachada;
-			
+		
+		try {
+			fachada.getControleRelatorios().inserirRelatorio("teste", "askkfnczdxjcmn \nadlvnmfcxzm,cmnxnsdkjmxz\njsdmnvclamz\nxnak\ndfdngmvlsdxcnmdaslkxfcnmfdcxm\nkdfkf");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Erro interno "+e.getMessage());
+		}
+		
 		setLayout(new CardLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();

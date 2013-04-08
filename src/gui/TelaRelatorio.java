@@ -105,7 +105,6 @@ public class TelaRelatorio extends JFrame {
 	}
 
 	private void escreveArquivo(String nomeArquivo){
-		System.out.println(nomeArquivo);
 		File file = new File(nomeArquivo);
 		FileWriter fwArquivo;
 		BufferedWriter bwArquivo;

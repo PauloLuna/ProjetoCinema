@@ -70,6 +70,15 @@ public class PanelSala extends JPanel {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setBounds(10, 112, 89, 23);
 		panel.add(btnRemover);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				preencheTabela();
+			}
+		});
+		btnAtualizar.setBounds(10, 11, 89, 23);
+		panel.add(btnAtualizar);
 
 	}
 
@@ -110,6 +119,7 @@ public class PanelSala extends JPanel {
 	}
 	
 	private void cadastrarAction() {
-		
+		TelaCadastroSala tela = new TelaCadastroSala(fachada);
+		tela.setVisible(true);
 	}
 }

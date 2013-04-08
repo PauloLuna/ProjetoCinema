@@ -32,6 +32,12 @@ public class TesteGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
+					UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel");
+				} catch (Exception e2) {
+					System.out.println(e2.getMessage());
+				} 
+				try {
 					TesteGUI frame = new TesteGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -45,11 +51,7 @@ public class TesteGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public TesteGUI() {
-//		try {
-//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-//		} catch (Exception e2) {
-//			System.out.println(e2.getMessage());
-//		} 
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 170, 128);
 		contentPane = new JPanel();
@@ -62,7 +64,7 @@ public class TesteGUI extends JFrame {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this, e1.getMessage());
 		}
-		
+
 		JButton btnTeste = new JButton("Administra\u00E7\u00E3o");
 		btnTeste.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -72,18 +74,18 @@ public class TesteGUI extends JFrame {
 		});
 		btnTeste.setBounds(10, 11, 134, 23);
 		contentPane.add(btnTeste);
-		
+
 		JButton btnTeste_1 = new JButton("Vendas");
 		btnTeste_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Vendas vendas = new Vendas();
+				Vendas vendas = new Vendas(fachada);
 				vendas.setVisible(true);
 			}
 		});
 		btnTeste_1.setBounds(10, 45, 134, 23);
 		contentPane.add(btnTeste_1);
-			
-		
+
+
 	}
-	
+
 }

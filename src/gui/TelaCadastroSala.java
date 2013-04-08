@@ -10,6 +10,9 @@ import javax.swing.JSpinner;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+
+import fachada.Fachada;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -20,24 +23,14 @@ public class TelaCadastroSala extends JDialog {
 
 	private JSpinner fileirasSp;
 	private JSpinner cadPfileiraSp;
+	private Fachada fachada;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			TelaCadastroSala dialog = new TelaCadastroSala();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public TelaCadastroSala() {
+	public TelaCadastroSala(Fachada fachada) {
+		this.fachada = fachada;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Cadastrar sala");
 		setBounds(100, 100, 450, 300);
