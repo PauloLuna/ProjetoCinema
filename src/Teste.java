@@ -3,9 +3,15 @@ import iterator.IteratorFilme;
 import java.io.*;
 import java.util.*;
 
-import basicas.*;
+import negocio.base.*;
 
-import repositorio.*;
+
+import repositorio.filme.FilmeNaoEncontradoException;
+import repositorio.filme.RepositorioFilme;
+import repositorio.filme.RepositorioFilmeExel;
+import repositorio.relatorio.*;
+import repositorio.sessao.RepositorioSessao;
+import repositorio.sessao.RepositorioSessaoExel;
 
 
 public class Teste {

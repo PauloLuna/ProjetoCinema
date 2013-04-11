@@ -2,10 +2,11 @@ package iterator;
 
 import java.util.Date;
 
+import negocio.base.Filme;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import basicas.Filme;
 
 
 public class IteratorFilmeExel implements IteratorFilme {

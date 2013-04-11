@@ -44,7 +44,8 @@ import javax.swing.JScrollPane;
 
 
 
-import repositorio.*;
+import repositorio.relatorio.*;
+
 import javax.swing.JButton;
 import javax.swing.JSplitPane;
 import java.awt.CardLayout;
@@ -54,8 +55,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextPane;
 
-import basicas.Filme;
-import basicas.Sessao;
+import negocio.base.Filme;
+import negocio.base.Sessao;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

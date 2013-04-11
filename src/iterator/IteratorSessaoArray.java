@@ -1,6 +1,6 @@
 package iterator;
 
-import basicas.Sessao;
+import negocio.base.Sessao;
 
 public class IteratorSessaoArray implements IteratorSessao {
 

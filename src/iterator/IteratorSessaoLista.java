@@ -1,7 +1,7 @@
 package iterator;
 
-import basicas.Sessao;
-import repositorio.RepositorioSessaoLista;
+import negocio.base.Sessao;
+import repositorio.sessao.RepositorioSessaoLista;
 
 public class IteratorSessaoLista implements IteratorSessao {
 

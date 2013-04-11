@@ -1,7 +1,7 @@
 package iterator;
 
-import basicas.Relatorio;
-import repositorio.RepositorioRelatorio;
+import negocio.base.Relatorio;
+import repositorio.relatorio.RepositorioRelatorio;
 
 public class IteratorRelatorio{
 

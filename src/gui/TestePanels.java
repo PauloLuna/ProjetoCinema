@@ -10,9 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import fachada.Fachada;
+import gui.panels.PanelAdministracao;
 
-import repositorio.RepositorioFilme;
-import repositorio.RepositorioFilmeExel;
+import repositorio.filme.RepositorioFilme;
+import repositorio.filme.RepositorioFilmeExel;
+
 import java.awt.CardLayout;
 
 public class TestePanels extends JFrame {

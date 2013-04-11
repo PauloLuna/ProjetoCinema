@@ -1,6 +1,6 @@
 package iterator;
 
-import basicas.Filme;
+import negocio.base.Filme;
 
 public class IteratorFilmeArray implements IteratorFilme {
 

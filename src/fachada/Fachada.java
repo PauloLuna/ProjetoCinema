@@ -7,9 +7,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import repositorio.*;
+import negocio.colecao.*;
 
-import colecaoNegocios.*;
+import repositorio.filme.RepositorioFilme;
+import repositorio.filme.RepositorioFilmeArray;
+import repositorio.filme.RepositorioFilmeExel;
+import repositorio.filme.RepositorioFilmeLista;
+import repositorio.relatorio.*;
+import repositorio.sala.RepositorioSala;
+import repositorio.sala.RepositorioSalaArray;
+import repositorio.sala.RepositorioSalaLista;
+import repositorio.sessao.RepositorioSessao;
+import repositorio.sessao.RepositorioSessaoArray;
+import repositorio.sessao.RepositorioSessaoExel;
+import repositorio.sessao.RepositorioSessaoLista;
+
 
 public class Fachada {
 

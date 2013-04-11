@@ -1,6 +1,6 @@
 package iterator;
 
-import basicas.Sala;
+import negocio.base.Sala;
 
 public class IteratorSalaArray implements IteratorSala{
 

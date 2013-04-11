@@ -2,11 +2,12 @@ package iterator;
 
 import java.util.Date;
 
+import negocio.base.Filme;
+import negocio.base.Sessao;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import basicas.Filme;
-import basicas.Sessao;
 
 
 public class IteratorSessaoExel implements IteratorSessao {

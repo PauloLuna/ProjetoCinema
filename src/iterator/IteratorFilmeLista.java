@@ -1,7 +1,7 @@
 package iterator;
 
-import basicas.Filme;
-import repositorio.RepositorioFilmeLista;
+import negocio.base.Filme;
+import repositorio.filme.RepositorioFilmeLista;
 
 public class IteratorFilmeLista implements IteratorFilme {
 
