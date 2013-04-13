@@ -2,8 +2,10 @@ package gui.panels;
 
 import fachada.Fachada;
 import gui.frames.TelaCadastroSala;
-import iterator.IteratorFilme;
+import gui.frames.TelaConfigSala;
+import iterator.*;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
@@ -17,7 +19,10 @@ import javax.swing.table.DefaultTableModel;
 
 import javax.swing.JButton;
 
+import repositorio.sala.SalaNaoEncontradaException;
+
 import negocio.base.Filme;
+import negocio.base.Sala;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -67,6 +72,11 @@ public class PanelSala extends JPanel {
 		panel.add(btnCadastrar);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnModificarAction();
+			}
+		});
 		btnModificar.setBounds(10, 78, 89, 23);
 		panel.add(btnModificar);
 		
@@ -105,17 +115,14 @@ public class PanelSala extends JPanel {
 			}
 		};
 
-			IteratorFilme itr = fachada.getCadFilme().getIteratorFilme();
-			SimpleDateFormat df;
-			df = new SimpleDateFormat("HH:mm:ss");
+			IteratorSala itr = fachada.getCadSala().getIteratorSala();
+			
 			while(itr.hasNext()){
-				Filme filme = itr.next();
-				String nome = filme.getNome();
-				String duracao = df.format(filme.getDuracao());
-				String categoria = filme.getCategoria();
-				String classifica = filme.getClassificacao();
-				String descricao = filme.getDescricao();
-				modeloTabela.addRow(new Object[]{nome,duracao,classifica,categoria,descricao});
+				Sala sala = itr.next();
+				String codigo = sala.getCodigo();
+				String numCadeiras = ""+(sala.getNumFilas()*sala.getNumColunas());
+				String numCadeirasQuebradas = "";
+				modeloTabela.addRow(new Object[]{codigo, numCadeiras, numCadeirasQuebradas});
 			}
 
 			table.setModel(modeloTabela);
@@ -124,5 +131,18 @@ public class PanelSala extends JPanel {
 	private void cadastrarAction() {
 		TelaCadastroSala tela = new TelaCadastroSala(fachada);
 		tela.setVisible(true);
+	}
+	
+	private void btnModificarAction() {
+		String codigo = (String)modeloTabela.getValueAt(table.getSelectedRow(), 0);
+		Sala sala;
+		try {
+			sala = fachada.getCadSala().procurarSala(codigo);
+			TelaConfigSala tela = new TelaConfigSala(sala);
+			tela.setVisible(true);
+		} catch (SalaNaoEncontradaException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+		
 	}
 }

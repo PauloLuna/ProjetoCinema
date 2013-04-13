@@ -4,7 +4,7 @@ import negocio.base.Sala;
 
 public interface IteratorSala {
 	
-	boolean hasnext();
+	boolean hasNext();
 	Sala next();
 
 }

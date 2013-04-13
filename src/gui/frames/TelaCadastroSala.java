@@ -5,11 +5,16 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+
+import repositorio.sala.SalaConflitanteException;
 
 import fachada.Fachada;
 
@@ -59,13 +64,15 @@ public class TelaCadastroSala extends JDialog {
 			contentPanel.add(lblNmeroDeCadeiras);
 		}
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(202, 73, 40, 20);
-		contentPanel.add(spinner);
+		SpinnerModel filModel = new SpinnerNumberModel(0, 0, 99, 1);
+		this.fileirasSp = new JSpinner(filModel);
+		this.fileirasSp.setBounds(202, 73, 40, 20);
+		contentPanel.add(this.fileirasSp);
 		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setBounds(202, 98, 40, 20);
-		contentPanel.add(spinner_1);
+		SpinnerModel cadModel = new SpinnerNumberModel(0, 0, 99, 1);
+		this.cadPfileiraSp = new JSpinner(cadModel);
+		this.cadPfileiraSp.setBounds(202, 98, 40, 20);
+		contentPanel.add(this.cadPfileiraSp);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -83,6 +90,11 @@ public class TelaCadastroSala extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						btnCancelAction();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -90,6 +102,20 @@ public class TelaCadastroSala extends JDialog {
 	}
 	
 	public void botaoCadastrarAction(){
+		String codigo = this.textField.getText();
+		int numFilas = ((Integer)this.fileirasSp.getValue()).intValue();
+		int numColunas = ((Integer)this.cadPfileiraSp.getValue()).intValue();
 		
+		try {
+			fachada.getCadSala().criarSala(codigo, numFilas, numColunas);
+			JOptionPane.showMessageDialog(this, "Sala cadastrada com sucesso!");
+			this.dispose();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+	}
+	
+	private void btnCancelAction() {
+		this.dispose();		
 	}
 }

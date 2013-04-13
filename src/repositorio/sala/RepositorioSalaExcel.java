@@ -49,7 +49,7 @@ public class RepositorioSalaExcel implements RepositorioSala {
 	
 	
 	// Métodos da INTERFACE
-	public Sala buscar(String codigo) throws SalaNaoAchada {
+	public Sala buscar(String codigo) throws SalaNaoEncontradaException {
 		int indice;
 		int i = 0;
 		Sala sala;
@@ -61,14 +61,14 @@ public class RepositorioSalaExcel implements RepositorioSala {
 	}
 
 	//Métodos da INTERFACE
-	public void inserir(Sala sala) throws SalaExistente {
+	public void inserir(Sala sala) throws SalaConflitanteException {
 		//Inserindo o objeto
 		this.instanciandoSalaExcel(sala);
 		
 	}
 
 
-	public void remover(String codigo) throws SalaNaoAchada {
+	public void remover(String codigo) throws SalaNaoEncontradaException {
 		int indice;
 		
 		//Buscando row do objeto
@@ -110,7 +110,7 @@ public class RepositorioSalaExcel implements RepositorioSala {
 	}
 
 	
-	public void atualizar(Sala sala, String codigo) throws SalaNaoAchada {
+	public void atualizar(Sala sala, String codigo) throws SalaNaoEncontradaException {
 		int indice;
 				
 		// Primeiro removemos o objeto
@@ -138,7 +138,7 @@ public class RepositorioSalaExcel implements RepositorioSala {
 	
 	
 	// Retornar qual linha est� o objeto - M�todo privado da classe
-	private int getLinhaSala(String codigo) throws SalaNaoAchada{
+	private int getLinhaSala(String codigo) throws SalaNaoEncontradaException{
 		// O que indentifica a sala � seu codigo
 		int indice = 0;
 		boolean procurando = true;		
@@ -149,8 +149,8 @@ public class RepositorioSalaExcel implements RepositorioSala {
 			
 			if (row.getCell(i) == null){
 				// Se a linha � nula est�o acabou a procura, objeto n�o encontrado
-				SalaNaoAchada erro;
-				erro = new SalaNaoAchada();
+				SalaNaoEncontradaException erro;
+				erro = new SalaNaoEncontradaException();
 				throw erro;
 			}
 			else if (row.getCell(0).getStringCellValue().equals(codigo)) {
@@ -168,7 +168,7 @@ public class RepositorioSalaExcel implements RepositorioSala {
 
 	
 	// Obtem uma linha do excel(das planilhas folha e folhaCadeira) e instacia um objeto sala e o devove
-	private Sala instanciandoSalaObjeto(String codigo) throws SalaNaoAchada{
+	private Sala instanciandoSalaObjeto(String codigo) throws SalaNaoEncontradaException{
 		Sala sala;
 		
 		int numFilas;
@@ -195,7 +195,7 @@ public class RepositorioSalaExcel implements RepositorioSala {
 		return sala;
 	}
 	
-	private Sala instanciandoSalaObjeto(int indice) throws SalaNaoAchada{
+	private Sala instanciandoSalaObjeto(int indice) throws SalaNaoEncontradaException{
 		Sala sala;
 		
 		int numFilas;

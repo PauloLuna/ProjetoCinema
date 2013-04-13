@@ -68,7 +68,6 @@ public class RepositorioFilmeLista implements RepositorioFilme {
 		return new IteratorFilmeLista(this.filme, this.proximo);
 	}
 
-	@Override
 	public boolean temFilme(String nome) {
 		boolean retorno = true;
 		try{

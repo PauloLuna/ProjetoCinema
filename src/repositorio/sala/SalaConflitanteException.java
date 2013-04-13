@@ -1,10 +1,10 @@
 package repositorio.sala;
 
 
-public class SalaExistente extends ErrosSala{
+public class SalaConflitanteException extends ErrosSala{
 	private String menssagem;
 	
-	public SalaExistente(){
+	public SalaConflitanteException(){
 		super("Ja Existe uma sala cadastrada com o mesmo codigo!");
 	}
 }

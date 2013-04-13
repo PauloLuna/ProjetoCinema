@@ -1,20 +1,21 @@
 package repositorio.sala;
 
-import negocio.base.Sala;
-import iterator.IteratorSalaArray;
-public interface RepositorioSala  {
-	
-		Sala buscar(String codigo) throws SalaNaoAchada;
-		
-		void inserir(Sala sala) throws SalaExistente;
-		
-		void remover(String codigo) throws SalaNaoAchada;
-		
-		void atualizar(Sala sala,String codigo) throws SalaNaoAchada;
-		
-		IteratorSalaArray getIterator();
-		
-		
-			
-}
+import iterator.IteratorSala;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import negocio.base.Sala;
+
+
+
+public interface RepositorioSala {
+
+	public Sala buscar(String nome) throws SalaNaoEncontradaException;
+	public void inserir(Sala sessao) throws FileNotFoundException, IOException,SalaConflitanteException;
+	public void remover(String nome)throws SalaNaoEncontradaException, FileNotFoundException, IOException;
+	public void atualizar(Sala Sala)throws SalaNaoEncontradaException, FileNotFoundException, IOException;
+	public boolean temSala(String nome);
+	public IteratorSala getIterator();
+	
+}

@@ -2,35 +2,27 @@ package iterator;
 
 import negocio.base.Sala;
 
-public class IteratorSalaArray implements IteratorSala{
+public class IteratorSalaArray implements IteratorSala {
 
-	private Sala[] sala;
+	private Sala[] salas;
 	private int indice;
-
-	public IteratorSalaArray (Sala[] salas) {
-		this.sala = salas;
+	
+	public IteratorSalaArray(Sala[] salas) {
+		this.salas = salas;
 		this.indice = 0;
 	}
-
-	public boolean hasnext() {
-		boolean hasnext;
-		
-		if (this.sala[indice + 1] == null){
-			hasnext = false;
-		}
-		else{
-			hasnext = true;
-		}
-				
-		return hasnext;
+	
+	public boolean hasNext() {
+		boolean retorno;
+		retorno = (this.indice<salas.length&&this.salas[indice]!=null);
+		return retorno;
 	}
 
-	
 	public Sala next() {
-		Sala sala = this.sala[this.indice];
+		Sala retorno = this.salas[this.indice];
 		this.indice++;
 		
-		return sala;
+		return retorno;
 	}
 
-} // Fim da classe Iterator
+}

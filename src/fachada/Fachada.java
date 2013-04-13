@@ -28,6 +28,7 @@ public class Fachada {
 	private CadastroFilme cadFilme;
 	private CadastroSessao cadSessao;
 	private ControleRelatorios controleRelatorios;
+	private CadastroSala cadSala;
 
 	public Fachada() throws IOException{
 		File dir = new File("repositorios");
@@ -82,7 +83,7 @@ public class Fachada {
 	private void iniciaControle(String tipo) throws IOException{
 		RepositorioFilme repFilme;
 		RepositorioSessao repSessao;
-		RepositorioSala repSala;
+		RepositorioSala repSala = null;
 		
 		if(tipo.equalsIgnoreCase("TAD")){
 			
@@ -108,6 +109,7 @@ public class Fachada {
 		
 		cadFilme = new CadastroFilme(repFilme);
 		cadSessao = new CadastroSessao(repSessao);
+		setCadSala(new CadastroSala(repSala));
 		setControleRelatorios(new ControleRelatorios());
 	}
 
@@ -117,5 +119,13 @@ public class Fachada {
 
 	public void setControleRelatorios(ControleRelatorios controleRelatorios) {
 		this.controleRelatorios = controleRelatorios;
+	}
+
+	public CadastroSala getCadSala() {
+		return cadSala;
+	}
+
+	public void setCadSala(CadastroSala cadSala) {
+		this.cadSala = cadSala;
 	}
 }

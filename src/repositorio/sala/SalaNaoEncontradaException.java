@@ -1,10 +1,10 @@
 package repositorio.sala;
 
 
-public class SalaNaoAchada extends ErrosSala{
+public class SalaNaoEncontradaException extends ErrosSala{
 	private String menssagem;
 	
-	public SalaNaoAchada(){
+	public SalaNaoEncontradaException(){
 		super("Sala Não Encontrada!!");
 	}
 }

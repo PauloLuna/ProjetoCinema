@@ -108,7 +108,7 @@ public class PanelSessao extends JPanel {
 	
 	public void btnInserirAciton(){
 
-		TelaCadastroSessao cadastra = new TelaCadastroSessao();
+		TelaCadastroSessao cadastra = new TelaCadastroSessao(fachada);
 		cadastra.setVisible(true);
 	}
 
