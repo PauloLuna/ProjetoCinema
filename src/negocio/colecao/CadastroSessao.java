@@ -5,8 +5,11 @@ import iterator.IteratorSessao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import negocio.base.Sessao;
+
 import repositorio.relatorio.*;
 import repositorio.sessao.RepositorioSessao;
+import repositorio.sessao.SessaoConflitanteException;
 import repositorio.sessao.SessaoNaoEncontradaException;
 
 public class CadastroSessao {
@@ -25,5 +28,9 @@ public class CadastroSessao {
 		this.repSessao.remover(idSessao);
 		
 	}	
+	
+	public void inserirSessao(Sessao sessao) throws FileNotFoundException, IOException, SessaoConflitanteException{
+		repSessao.inserir(sessao);
+	}
 
 }

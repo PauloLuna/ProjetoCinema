@@ -16,8 +16,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
@@ -27,6 +31,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
+
+import repositorio.filme.FilmeNaoEncontradoException;
+
+import negocio.base.*;
 
 import fachada.Fachada;
 
@@ -69,6 +77,11 @@ public class TelaCadastroSessao extends JDialog {
 		contentPanel.add(lblSala);
 
 		sala = new JComboBox();
+		sala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mudaSala();
+			}
+		});
 		sala.setBounds(421, 34, 122, 20);
 		contentPanel.add(sala);
 
@@ -145,6 +158,11 @@ public class TelaCadastroSessao extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						criarSessaoAction();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -207,6 +225,53 @@ public class TelaCadastroSessao extends JDialog {
 		}
 	}
 
+	
+	private void mudaSala() {
+		this.faixaHorario = new JComboBox();
+		IteratorSessao itr = fachada.getCadSessao().getIteratorSessao();
+		Date[] horarios= new Date[30];
+		int indice = 0;
+		while(itr.hasNext()){
+			Sessao sessao = itr.next();
+			if(sessao.getSala().equals(sala.getItemAt(sala.getSelectedIndex()))){
+				horarios[indice] = sessao.getHoraInicio();
+				indice++;
+				horarios[indice] = sessao.getHoraFim();
+				indice++;
+				if(indice>=horarios.length){
+					Date[]apoio = new Date[horarios.length*2];
+					for(int i = 0; i < indice; i++) apoio[i] = horarios[i];
+				}
+			}
+		}
+		if(horarios[0]!=null) Arrays.sort(horarios);
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+		int i = 0;
+		while(horarios[i]!=null){
+			this.faixaHorario.addItem(df.format(horarios[i])+" - "+df.format(horarios[i+1]));
+			
+		}
+	}
+	
+
+	private void criarSessaoAction() {
+		if(rdbtnSessaoFilme.isSelected()){
+			try {
+				Filme filme = fachada.getCadFilme().buscarFilme((String)this.filme.getSelectedItem());
+				Sala sala = fachada.getCadSala().procurarSala((String)this.sala.getSelectedItem());
+				Sessao sessao = new SessaoPublicaFilme("11", filme, sala, new Date());
+				fachada.getCadSessao().inserirSessao(sessao);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+		} else if(rdbtnSessaoFilmeFechada.isSelected()){
+			
+		}else if(rdbtnSessaoParticularAberta.isSelected()){
+			
+		}else if(rdbtnSessaoParticularFechada.isSelected()){
+			
+		}
+	}
 
 
 	private class CheckBoxHandler implements ItemListener{
