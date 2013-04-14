@@ -16,21 +16,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
+
+import org.apache.poi.ss.util.DateFormatConverter;
 
 import repositorio.filme.FilmeNaoEncontradoException;
 
@@ -46,12 +52,13 @@ public class TelaCadastroSessao extends JDialog {
 	private JComboBox filme, sala, faixaHorario;
 	private JSpinner duracaoHs, duracaoMin, duracaoSeg, ajusteHs, ajusteMin, ajusteSeg;
 	private Fachada fachada;
-	
+
 
 	/**
 	 * Create the dialog.
 	 */
 	public TelaCadastroSessao(Fachada fachada) {
+		setModal(true);
 		this.fachada = fachada;
 		setBounds(100, 100, 678, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -89,15 +96,18 @@ public class TelaCadastroSessao extends JDialog {
 		lblDurao.setBounds(32, 102, 57, 14);
 		contentPanel.add(lblDurao);
 
-		duracaoHs = new JSpinner();
+		SpinnerNumberModel modelDHs = new SpinnerNumberModel(0,0,23,1);
+		duracaoHs = new JSpinner(modelDHs);
 		duracaoHs.setBounds(116, 96, 36, 20);
 		contentPanel.add(duracaoHs);
 
-		duracaoMin = new JSpinner();
+		SpinnerNumberModel modelDMin = new SpinnerNumberModel(0,0,59,1);
+		duracaoMin = new JSpinner(modelDMin);
 		duracaoMin.setBounds(181, 96, 36, 20);
 		contentPanel.add(duracaoMin);
 
-		duracaoSeg = new JSpinner();
+		SpinnerNumberModel modelDSeg = new SpinnerNumberModel(0,0,59,1);
+		duracaoSeg = new JSpinner(modelDSeg);
 		duracaoSeg.setBounds(252, 96, 36, 20);
 		contentPanel.add(duracaoSeg);
 
@@ -125,7 +135,8 @@ public class TelaCadastroSessao extends JDialog {
 		lblAjusteDoHorrio.setBounds(32, 174, 106, 14);
 		contentPanel.add(lblAjusteDoHorrio);
 
-		ajusteHs = new JSpinner();
+		SpinnerNumberModel modelHs = new SpinnerNumberModel(0,0,23,1);
+		ajusteHs = new JSpinner(modelHs);
 		ajusteHs.setBounds(227, 171, 36, 20);
 		contentPanel.add(ajusteHs);
 
@@ -133,7 +144,8 @@ public class TelaCadastroSessao extends JDialog {
 		label.setBounds(273, 177, 46, 14);
 		contentPanel.add(label);
 
-		ajusteMin = new JSpinner();
+		SpinnerNumberModel modelMin = new SpinnerNumberModel(0,0,59,1);
+		ajusteMin = new JSpinner(modelMin);
 		ajusteMin.setBounds(292, 171, 36, 20);
 		contentPanel.add(ajusteMin);
 
@@ -141,7 +153,8 @@ public class TelaCadastroSessao extends JDialog {
 		label_1.setBounds(338, 177, 46, 14);
 		contentPanel.add(label_1);
 
-		ajusteSeg = new JSpinner();
+		SpinnerNumberModel modelSeg = new SpinnerNumberModel(0,0,59,1);
+		ajusteSeg = new JSpinner(modelSeg);
 		ajusteSeg.setBounds(363, 171, 36, 20);
 		contentPanel.add(ajusteSeg);
 
@@ -183,7 +196,7 @@ public class TelaCadastroSessao extends JDialog {
 				toolBar.add(lblTipo);
 			}
 
-			
+
 			{
 				rdbtnSessaoFilme = new JRadioButton("Sess\u00E3o filme");
 				rdbtnSessaoFilme.addItemListener(handler);
@@ -209,11 +222,17 @@ public class TelaCadastroSessao extends JDialog {
 				toolBar.add(rdbtnSessaoParticularFechada);
 			}
 		}
-		
+
 		preencheListas();
+		rdbtnSessaoFilme.setSelected(true);
+		textField.setEnabled(false);
+		filme.setEnabled(true);
+		duracaoHs.setEnabled(false);
+		duracaoMin.setEnabled(false);
+		duracaoSeg.setEnabled(false);
 	}
 
-	
+
 	private void preencheListas(){
 		IteratorFilme itrFilme = fachada.getCadFilme().getIteratorFilme();
 		while(itrFilme.hasNext()){
@@ -225,51 +244,82 @@ public class TelaCadastroSessao extends JDialog {
 		}
 	}
 
-	
+
 	private void mudaSala() {
-		this.faixaHorario = new JComboBox();
+		this.faixaHorario.removeAllItems();
 		IteratorSessao itr = fachada.getCadSessao().getIteratorSessao();
-		Date[] horarios= new Date[30];
-		int indice = 0;
+
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 		while(itr.hasNext()){
 			Sessao sessao = itr.next();
-			if(sessao.getSala().equals(sala.getItemAt(sala.getSelectedIndex()))){
-				horarios[indice] = sessao.getHoraInicio();
-				indice++;
-				horarios[indice] = sessao.getHoraFim();
-				indice++;
-				if(indice>=horarios.length){
-					Date[]apoio = new Date[horarios.length*2];
-					for(int i = 0; i < indice; i++) apoio[i] = horarios[i];
-				}
+			System.out.println(sessao.getSala().getCodigo()+"="+sala.getSelectedItem());
+			if(sessao.getSala().getCodigo().equals((String)sala.getSelectedItem())){
+				this.faixaHorario.addItem(df.format(sessao.getHoraInicio())+" - "+df.format(sessao.getHoraFim()));
 			}
 		}
-		if(horarios[0]!=null) Arrays.sort(horarios);
-		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-		int i = 0;
-		while(horarios[i]!=null){
-			this.faixaHorario.addItem(df.format(horarios[i])+" - "+df.format(horarios[i+1]));
-			
-		}
 	}
-	
+
+
 
 	private void criarSessaoAction() {
+
+		GregorianCalendar gc = new GregorianCalendar();
+
+		gc.add(Calendar.HOUR_OF_DAY, ((Integer)duracaoHs.getValue()).intValue());
+		gc.add(Calendar.MINUTE, ((Integer)duracaoMin.getValue()).intValue());
+		gc.add(Calendar.SECOND, ((Integer)duracaoSeg.getValue()).intValue());
+		Date duracao = gc.getTime();
+
+		GregorianCalendar gc2 = new GregorianCalendar();
+
+		gc2.add(Calendar.HOUR_OF_DAY, ((Integer)ajusteHs.getValue()).intValue());
+		gc2.add(Calendar.MINUTE, ((Integer)ajusteMin.getValue()).intValue());
+		gc2.add(Calendar.SECOND, ((Integer)ajusteSeg.getValue()).intValue());
+		Date inicio = gc.getTime();
+
+
 		if(rdbtnSessaoFilme.isSelected()){
 			try {
 				Filme filme = fachada.getCadFilme().buscarFilme((String)this.filme.getSelectedItem());
 				Sala sala = fachada.getCadSala().procurarSala((String)this.sala.getSelectedItem());
-				Sessao sessao = new SessaoPublicaFilme("11", filme, sala, new Date());
+				Sessao sessao = new SessaoPublicaFilme("", filme, sala, inicio);
 				fachada.getCadSessao().inserirSessao(sessao);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, e.getMessage());
 			}
 		} else if(rdbtnSessaoFilmeFechada.isSelected()){
-			
+
+			try {
+				Filme filme = fachada.getCadFilme().buscarFilme((String)this.filme.getSelectedItem());
+				Sala sala = fachada.getCadSala().procurarSala((String)this.sala.getSelectedItem());
+				Sessao sessao = new SessaoFechadaFilme("", filme, sala, inicio);
+				fachada.getCadSessao().inserirSessao(sessao);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+
 		}else if(rdbtnSessaoParticularAberta.isSelected()){
-			
+
+			try {
+				String titulo = this.textField.getText();
+				Sala sala = fachada.getCadSala().procurarSala((String)this.sala.getSelectedItem());
+				Sessao sessao = new SessaoPublicaPropria("", sala, inicio, duracao,titulo);
+				fachada.getCadSessao().inserirSessao(sessao);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+
 		}else if(rdbtnSessaoParticularFechada.isSelected()){
-			
+
+			try {
+				String titulo = this.textField.getText();
+				Sala sala = fachada.getCadSala().procurarSala((String)this.sala.getSelectedItem());
+				Sessao sessao = new SessaoFechadaPropria("", sala, inicio, duracao,titulo);
+				fachada.getCadSessao().inserirSessao(sessao);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+
 		}
 	}
 
@@ -278,7 +328,7 @@ public class TelaCadastroSessao extends JDialog {
 
 
 		public void itemStateChanged(ItemEvent event){
-			
+
 
 			if(event.getSource() == rdbtnSessaoFilme || event.getSource() == rdbtnSessaoFilmeFechada){
 				textField.setEnabled(false);

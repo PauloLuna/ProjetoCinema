@@ -108,9 +108,9 @@ public class Fachada {
 		}
 		
 		cadFilme = new CadastroFilme(repFilme);
-		cadSessao = new CadastroSessao(repSessao);
-		setCadSala(new CadastroSala(repSala));
 		setControleRelatorios(new ControleRelatorios());
+		cadSessao = new CadastroSessao(repSessao, controleRelatorios);
+		setCadSala(new CadastroSala(repSala));
 	}
 
 	public ControleRelatorios getControleRelatorios() {

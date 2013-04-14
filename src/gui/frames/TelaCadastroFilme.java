@@ -46,6 +46,7 @@ public class TelaCadastroFilme extends JDialog {
 	 * Create the dialog.
 	 */
 	public TelaCadastroFilme(Fachada fachada) {
+		setModal(true);
 		
 		this.fachada = fachada;
 		setTitle("Cadastrar filme");

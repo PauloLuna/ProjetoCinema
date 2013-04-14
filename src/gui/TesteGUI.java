@@ -14,6 +14,7 @@ import java.awt.CardLayout;
 import javax.swing.JButton;
 
 import fachada.Fachada;
+import gui.frames.TelaVendas;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -78,7 +79,7 @@ public class TesteGUI extends JFrame {
 		JButton btnTeste_1 = new JButton("Vendas");
 		btnTeste_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Vendas vendas = new Vendas(fachada);
+				TelaVendas vendas = new TelaVendas(fachada);
 				vendas.setVisible(true);
 			}
 		});

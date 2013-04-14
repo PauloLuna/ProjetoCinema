@@ -34,6 +34,10 @@ public class Relatorio implements Serializable{
 		this.texto = texto;
 	}
 	
+	public void addTexto(String texto){
+		this.texto += "\n\n"+texto;
+	}
+	
 	
 
 }

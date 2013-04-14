@@ -40,12 +40,6 @@ public class PanelRelatorio extends JPanel {
 	public PanelRelatorio(Fachada fachada) {
 		this.fachada = fachada;
 		
-		try {
-			fachada.getControleRelatorios().inserirRelatorio("teste", "askkfnczdxjcmn \nadlvnmfcxzm,cmnxnsdkjmxz\njsdmnvclamz\nxnak\ndfdngmvlsdxcnmdaslkxfcnmfdcxm\nkdfkf");
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(this, "Erro interno "+e.getMessage());
-		}
-		
 		setLayout(new CardLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
@@ -66,8 +60,22 @@ public class PanelRelatorio extends JPanel {
 		panel_1.add(btnLer);
 		
 		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnExculirAction();
+			}
+		});
 		btnExcluir.setBounds(10, 85, 89, 23);
 		panel_1.add(btnExcluir);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				preencheTabela();
+			}
+		});
+		btnAtualizar.setBounds(10, 17, 89, 23);
+		panel_1.add(btnAtualizar);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		splitPane.setLeftComponent(scrollPane);
@@ -136,5 +144,14 @@ private void preencheTabela(){
 		}
 		
 	}
+	
 
+	private void btnExculirAction() {
+		String nomeSala = (String)table.getValueAt(table.getSelectedRow(),0);
+		try {
+			fachada.getControleRelatorios().removeRelatorio(nomeSala);
+		} catch (RelatorioNaoEncontradoException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+	}
 }

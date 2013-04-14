@@ -35,6 +35,7 @@ public class TelaCadastroSala extends JDialog {
 	 * Create the dialog.
 	 */
 	public TelaCadastroSala(Fachada fachada) {
+		setModal(true);
 		this.fachada = fachada;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Cadastrar sala");
@@ -113,6 +114,7 @@ public class TelaCadastroSala extends JDialog {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
+		this.dispose();
 	}
 	
 	private void btnCancelAction() {

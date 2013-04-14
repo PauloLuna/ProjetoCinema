@@ -1,4 +1,4 @@
-package gui;
+package gui.frames;
 
 import fachada.Fachada;
 import iterator.IteratorSessao;
@@ -26,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
 import javax.swing.JComboBox;
@@ -45,6 +46,7 @@ import javax.swing.JScrollPane;
 
 
 import repositorio.relatorio.*;
+import repositorio.sessao.SessaoNaoEncontradaException;
 
 import javax.swing.JButton;
 import javax.swing.JSplitPane;
@@ -62,7 +64,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class Vendas extends JFrame {
+public class TelaVendas extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -73,8 +75,7 @@ public class Vendas extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Vendas(Fachada fachada) {
-		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	public TelaVendas(Fachada fachada) {
 		this.fachada = fachada;
 		setBounds(100, 100, 722, 346);
 		contentPane = new JPanel();
@@ -102,10 +103,8 @@ public class Vendas extends JFrame {
 		btnAbrir.setBounds(641, 281, 55, 23);
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				btnAbrirAction();
 			}
-
-
 		});
 		contentPane.setLayout(null);
 		contentPane.add(btnAbrir);
@@ -166,5 +165,16 @@ public class Vendas extends JFrame {
 
 			table.setModel(modeloTabela);
 	}
+	
 
+	private void btnAbrirAction() {
+		String id = (String) table.getValueAt(table.getSelectedRow(), 0);
+		try {
+			Sessao sessao = fachada.getCadSessao().buscarSessao(id);
+			TelaVendaSessao tela = new TelaVendaSessao(sessao);
+			tela.setVisible(true);
+		} catch (SessaoNaoEncontradaException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+	}
 }

@@ -26,6 +26,8 @@ import negocio.base.Sala;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class PanelSala extends JPanel {
 	private JTable table;
@@ -81,6 +83,11 @@ public class PanelSala extends JPanel {
 		panel.add(btnModificar);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnRemoverAction();
+			}
+		});
 		btnRemover.setBounds(10, 112, 89, 23);
 		panel.add(btnRemover);
 		
@@ -144,5 +151,15 @@ public class PanelSala extends JPanel {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 		
+	}
+	
+
+	private void btnRemoverAction() {
+		String codigo = (String)modeloTabela.getValueAt(table.getSelectedRow(), 0);
+		try {
+			fachada.getCadSala().removerSala(codigo);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		} 
 	}
 }

@@ -27,10 +27,20 @@ public class ControleRelatorios {
 			System.out.println("Merda na classe");
 		} catch (IOException e) {
 			this.repRelatorio = new RepositorioRelatorio();
-			System.out.println("novo");
 		}
 	}
 
+	public boolean temRelatorio(String nomeSala){
+		boolean retorno = true;
+		try {
+			buscarRelatorio(nomeSala);
+		} catch (RelatorioNaoEncontradoException e) {
+			retorno = false;
+		}
+		
+		return retorno;
+	}
+	
 	public RepositorioRelatorio getRepRelatorio() {
 		return repRelatorio;
 	}
@@ -51,6 +61,10 @@ public class ControleRelatorios {
 	
 	public Relatorio buscarRelatorio(String nomeSala) throws RelatorioNaoEncontradoException{
 		return repRelatorio.buscar(nomeSala);
+	}
+	
+	public void removeRelatorio(String nomeSala) throws RelatorioNaoEncontradoException{
+		repRelatorio.remover(nomeSala);
 	}
 	
 	private void deserializa() throws IOException, ClassNotFoundException{

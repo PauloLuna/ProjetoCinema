@@ -27,7 +27,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 
-import negocio.base.Sala;
+import negocio.base.Sessao;
+import negocio.base.Sessao;
 
 import fachada.Fachada;
 import java.awt.event.ActionListener;
@@ -36,21 +37,21 @@ import java.awt.event.ActionEvent;
 
 
 
-public class TelaConfigSala extends JDialog {
+public class TelaVendaSessao extends JDialog {
 
 	private JPanel contentPanel = new JPanel();
 	private JToggleButton[][] cadeiras;
 	private JPanel panel;
-	private Sala sala;
+	private Sessao sessao;
 
 
 
 	/**
 	 * Create the dialog.
 	 */
-	public TelaConfigSala(Sala sala) {
+	public TelaVendaSessao(Sessao sessao) {
 		setModal(true);
-		this.sala = sala;
+		this.sessao = sessao;
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 
@@ -73,8 +74,8 @@ public class TelaConfigSala extends JDialog {
 			}
 		}
 		{
-			int filas = sala.getNumFilas();
-			int colunas = sala.getNumColunas();
+			int filas = sessao.getSala().getNumFilas();
+			int colunas = sessao.getSala().getNumColunas();
 			this.cadeiras = new JToggleButton[filas][colunas];
 			for(int i = 0; i<filas; i++){
 				for(int j =0; j<colunas; j++){
@@ -86,22 +87,15 @@ public class TelaConfigSala extends JDialog {
 					cadeiras[i][j] = new JToggleButton(i+"x"+j);
 					cadeiras[i][j].setSelectedIcon(new ImageIcon(loadImage("/imagem/cadeiraVendidapqn.png")));
 					cadeiras[i][j].setIcon(new ImageIcon(loadImage("/imagem/cadeiraNvendidapqn.png")));
-					cadeiras[i][j].setSelected(sala.getCadeiras()[i][j].getCadeiraQuebrada());
+					cadeiras[i][j].setEnabled(!sessao.getSala().getCadeiras()[i][j].getCadeiraQuebrada());
+					cadeiras[i][j].setSelected(sessao.getSala().getCadeiras()[i][j].getCadeiraComprada());
 					cadeiras[i][j].addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							mudaSala(((JToggleButton)e.getSource()).getText());
+							mudaSessao(((JToggleButton)e.getSource()).getText());
 						}
 					});
 					panel.add(cadeiras[i][j],gbc_btnNewButton);
 
-					//					JLabel lblNewLabel = new JLabel("Cadeira: "+(i*5+j));
-
-
-					//					GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-					//					gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-					//					gbc_lblNewLabel.gridx = j;
-					//					gbc_lblNewLabel.gridy = i*2+1;
-					//					panel.add(lblNewLabel, gbc_lblNewLabel);
 				}
 			}
 		}
@@ -135,16 +129,15 @@ public class TelaConfigSala extends JDialog {
 	}  
 
 
-	private void mudaSala(String text) {
-		int confirma =  JOptionPane.showConfirmDialog(this, "Confirmar mudança no estado da cadeira?");
+	private void mudaSessao(String text) {
+		int confirma =  JOptionPane.showConfirmDialog(this, "Confirmar mudança no estado da compra?");
 		if(confirma == 0){
 			StringTokenizer st = new StringTokenizer(text, "x");
 			String str = st.nextToken();
-			System.out.println(str);
 			int i = Integer.parseInt(str.substring(0, str.length()));
 			int j = Integer.parseInt(st.nextToken());
-			boolean estado =  sala.getCadeiras()[i][j].getCadeiraQuebrada();
-			sala.getCadeiras()[i][j].setCadeiraQuebrada(!estado);
+			boolean estado =  sessao.getSala().getCadeiras()[i][j].getCadeiraComprada();
+			sessao.getSala().getCadeiras()[i][j].setCadeiraComprada(!estado);
 		}
 	}
 

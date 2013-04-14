@@ -52,6 +52,7 @@ public class TelaAtualizarFilme extends JDialog {
 	 * Create the dialog.
 	 */
 	public TelaAtualizarFilme(Filme filme, Fachada fachada) {
+		setModal(true);
 				
 		this.fachada = fachada;
 		setTitle("Atualizar filme");
@@ -187,6 +188,7 @@ public class TelaAtualizarFilme extends JDialog {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
+		this.dispose();
 	}
 	
 	private void cancelButtonAction(){

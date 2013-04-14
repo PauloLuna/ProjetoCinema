@@ -97,9 +97,6 @@ public class PanelSessao extends JPanel {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false); 
 		table.setAutoCreateRowSorter(true);
-		TableColumn codigoColumn = table.getColumnModel().getColumn(0);  
-		codigoColumn.setMinWidth(0);  
-		codigoColumn.setMaxWidth(0);  
 
 
 
@@ -113,16 +110,6 @@ public class PanelSessao extends JPanel {
 	}
 
 	public void btnAtualizarAction(){
-
-		/*int linha = table.getSelectedRow();
-		String nomeFilme = (String)table.getValueAt(linha, 0);
-		Filme filme;
-		try {
-			filme = fachada.buscarFilme(nomeFilme);
-		} catch (FilmeNaoEncontradoException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());			
-		}*/
-
 
 	}
 
@@ -172,6 +159,9 @@ public class PanelSessao extends JPanel {
 			}
 
 			table.setModel(modeloTabela);
+			TableColumn codigoColumn = table.getColumnModel().getColumn(0);  
+			codigoColumn.setMinWidth(0);  
+			codigoColumn.setMaxWidth(0);  
 	}
 
 }
