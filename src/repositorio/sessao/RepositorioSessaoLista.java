@@ -8,6 +8,7 @@ public class RepositorioSessaoLista implements RepositorioSessao {
 
 	private Sessao sessao;
 	private RepositorioSessaoLista proximo;
+	private static int indice = 0;
 
 	public RepositorioSessaoLista(){
 		//Cada novo elemento tem seus valores como nulos
@@ -32,6 +33,8 @@ public class RepositorioSessaoLista implements RepositorioSessao {
 
 	public void inserir(Sessao sessao) throws SessaoConflitanteException {
 		if(this.sessao==null){//Checa fim de lista se achar insere os dados
+			sessao.setId(""+indice);
+			indice++;
 			this.sessao = sessao;
 			this.proximo = new RepositorioSessaoLista();
 		} else {//Se não manda o proximo elemento tentar inserir

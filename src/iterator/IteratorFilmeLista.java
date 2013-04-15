@@ -20,6 +20,7 @@ public class IteratorFilmeLista implements IteratorFilme {
 
 	public Filme next() {
 		Filme retorno = this.filme;
+		//Obtém os dados do iterator do próximo elemento da lista
 		IteratorFilmeLista itr = (IteratorFilmeLista)this.proximo.getIterator();
 		this.filme = itr.filme;
 		this.proximo = itr.proximo;

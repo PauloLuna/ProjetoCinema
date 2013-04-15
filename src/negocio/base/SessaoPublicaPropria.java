@@ -11,7 +11,9 @@ public class SessaoPublicaPropria extends Sessao {
 
 	public SessaoPublicaPropria(String id, Sala sala, Date horaInicio,
 			Date duracao, String titulo) {
+		//Sessão de conteúdo do comprador onde nada começa vendido,sendo isso serviço do cinema
 		super(id, sala, horaInicio, null);
+		this.titulo = titulo;
 		GregorianCalendar gc = new GregorianCalendar();
 		GregorianCalendar duracao2 = new GregorianCalendar();
 		duracao2.setTime(duracao);

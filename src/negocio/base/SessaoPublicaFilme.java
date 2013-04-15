@@ -8,6 +8,7 @@ public class SessaoPublicaFilme extends Sessao {
 	private Filme filme;
 
 	public SessaoPublicaFilme(String id, Filme filme, Sala sala, Date horaInicio) {
+		//Sessão de filme comum onde nada começa vendido
 		super(id, sala, horaInicio, null);
 		this.setFilme(filme);	
 
@@ -43,7 +44,7 @@ public class SessaoPublicaFilme extends Sessao {
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 		retorno+="Hora de início: "+df.format(super.getHoraInicio())+" Hora de término: "+df.format(super.getHoraFim())+"\n";
 		int[] cad = super.contaCadeiras();
-		retorno += "Número de cadeiras quebradas durante sessão: "+ cad[1]+"\nNúmero de cadeiras vendidas ocupadas na sessão: " 
+		retorno += "Número de cadeiras quebradas durante sessão: "+ cad[1]+"\nNúmero de cadeiras vendidas/ocupadas na sessão: " 
 				+ cad[0];
 
 		return retorno;

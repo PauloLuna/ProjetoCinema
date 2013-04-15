@@ -20,6 +20,7 @@ public class IteratorRelatorio{
 
 	public Relatorio next() {
 		Relatorio retorno = this.relatorio;
+		//Obtém os dados do iterator do próximo elemento da lista
 		IteratorRelatorio itr = (IteratorRelatorio)this.proximo.getIterator();
 		this.relatorio = itr.relatorio;
 		this.proximo = itr.proximo;

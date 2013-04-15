@@ -1,4 +1,4 @@
-package gui;
+package gui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -14,14 +14,14 @@ import java.awt.CardLayout;
 import javax.swing.JButton;
 
 import fachada.Fachada;
-import gui.frames.TelaVendas;
+import fachada.FalhaNaConfiguracaoException;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 
-public class TesteGUI extends JFrame {
+public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private Fachada fachada;
@@ -39,7 +39,7 @@ public class TesteGUI extends JFrame {
 					System.out.println(e2.getMessage());
 				} 
 				try {
-					TesteGUI frame = new TesteGUI();
+					TelaPrincipal frame = new TelaPrincipal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +51,8 @@ public class TesteGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TesteGUI() {
+	public TelaPrincipal() {
+		setTitle("MeuCine");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 170, 128);
@@ -60,7 +61,15 @@ public class TesteGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		try {
-			this.fachada = new Fachada();
+			try {
+				try {
+					this.fachada = new Fachada();
+				} catch (ClassNotFoundException e) {
+					JOptionPane.showMessageDialog(this, "Erro interno");
+				}
+			} catch (FalhaNaConfiguracaoException e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this, e1.getMessage());
@@ -69,7 +78,7 @@ public class TesteGUI extends JFrame {
 		JButton btnTeste = new JButton("Administra\u00E7\u00E3o");
 		btnTeste.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TestePanels administra = new TestePanels(fachada);
+				TelaAdministracao administra = new TelaAdministracao(fachada);
 				administra.setVisible(true);
 			}
 		});

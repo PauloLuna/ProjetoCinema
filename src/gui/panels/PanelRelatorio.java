@@ -39,17 +39,17 @@ public class PanelRelatorio extends JPanel {
 	 */
 	public PanelRelatorio(Fachada fachada) {
 		this.fachada = fachada;
-		
+
 		setLayout(new CardLayout(0, 0));
-		
+
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setDividerLocation(620);
 		add(splitPane, "name_448841281678032");
-		
+
 		JPanel panel_1 = new JPanel();
 		splitPane.setRightComponent(panel_1);
 		panel_1.setLayout(null);
-		
+
 		JButton btnLer = new JButton("Ler");
 		btnLer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -58,7 +58,7 @@ public class PanelRelatorio extends JPanel {
 		});
 		btnLer.setBounds(10, 51, 89, 23);
 		panel_1.add(btnLer);
-		
+
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -67,7 +67,7 @@ public class PanelRelatorio extends JPanel {
 		});
 		btnExcluir.setBounds(10, 85, 89, 23);
 		panel_1.add(btnExcluir);
-		
+
 		JButton btnAtualizar = new JButton("Atualizar");
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -76,14 +76,14 @@ public class PanelRelatorio extends JPanel {
 		});
 		btnAtualizar.setBounds(10, 17, 89, 23);
 		panel_1.add(btnAtualizar);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		splitPane.setLeftComponent(scrollPane);
-		
+
 		table = new JTable();
-		
+
 		preencheTabela();
-		
+
 		scrollPane.setViewportView(table);
 
 		table.setShowHorizontalLines(false);
@@ -93,41 +93,41 @@ public class PanelRelatorio extends JPanel {
 		table.setAutoCreateRowSorter(true);
 
 	}
-	
-	
-private void preencheTabela(){
-		
+
+
+	private void preencheTabela(){
+
 		modeloTabela = new DefaultTableModel(
 				new Object[][] {
 				},
 				new String[] {
-					 "Sala", "Data de gera\u00E7\u00E3o"
+						"Sala", "Data de gera\u00E7\u00E3o"
 				}
-			) {
-				
-				public Class getColumnClass(int columnIndex) {
-					Class retorno = String.class;
-					if (columnIndex == 1) retorno = Date.class;
-					return retorno;
-				}
-				
-				public boolean isCellEditable(int row, int column) {
-					return false;
-				}
-			};
-			
+				) {
+
+			public Class getColumnClass(int columnIndex) {
+				Class retorno = String.class;
+				if (columnIndex == 1) retorno = Date.class;
+				return retorno;
+			}
+
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
 		IteratorRelatorio itr = fachada.getControleRelatorios().getIteratorRelatorio();
-//		SimpleDateFormat df;
-//		df = new SimpleDateFormat("HH:mm:ss");
+		//		SimpleDateFormat df;
+		//		df = new SimpleDateFormat("HH:mm:ss");
 		while(itr.hasNext()){
 			Relatorio rel = itr.next();
 			String sala = rel.getNomeSala();
-			Date dataGeracao = rel.getDataCriacao();
+			Date dataGeracao = rel.getDataModificacao();
 			modeloTabela.addRow(new Object[]{sala,dataGeracao});
 		}
-		
+
 		table.setModel(modeloTabela);
-		
+
 	}
 
 	public void botaoLerAction(){
@@ -136,15 +136,14 @@ private void preencheTabela(){
 		try {
 			rel = fachada.getControleRelatorios().buscarRelatorio(nomeSala);
 			TelaRelatorio tela = new TelaRelatorio(rel);
-			tela.setTitle(nomeSala+" Criado em: "+rel.getDataCriacao());
+			tela.setTitle(nomeSala+" Última modificação: "+rel.getDataModificacao());
 			tela.setVisible(true);
 		} catch (RelatorioNaoEncontradoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
-		
+
 	}
-	
+
 
 	private void btnExculirAction() {
 		String nomeSala = (String)table.getValueAt(table.getSelectedRow(),0);

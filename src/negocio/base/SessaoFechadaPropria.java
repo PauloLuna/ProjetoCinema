@@ -6,6 +6,7 @@ public class SessaoFechadaPropria extends SessaoPublicaPropria {
 
 	public SessaoFechadaPropria(String id, Sala sala, Date horaInicio,
 			Date duracao, String titulo) {
+		//Sessão com conteúdo do comprador que começa toda vendida
 		super(id, sala, horaInicio, duracao, titulo);
 		Cadeira[][] cad = this.getSala().getCadeiras();
 		for(int i = 0; i < cad.length; i++){

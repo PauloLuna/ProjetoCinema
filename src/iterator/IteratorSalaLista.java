@@ -23,6 +23,7 @@ public class IteratorSalaLista implements IteratorSala {
 
 	public Sala next() {
 		Sala retorno = this.sala;
+		//Obtém os dados do iterator do próximo elemento da lista
 		IteratorSalaLista itr = (IteratorSalaLista)this.proximo.getIterator();
 		this.sala = itr.sala;
 		this.proximo = itr.proximo;

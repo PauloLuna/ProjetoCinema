@@ -24,7 +24,7 @@ public class RepositorioSessaoArray implements RepositorioSessao{
 
 
 	public void inserir(Sessao sessao) throws SessaoConflitanteException {
-		
+		sessao.setId(""+indice);
 		if(this.indice == this.sessoes.length){
 			Sessao[] apoio = new Sessao[this.sessoes.length*2];
 			for(int i = 0; i<this.indice; i++){

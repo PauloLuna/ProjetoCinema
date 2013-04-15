@@ -13,36 +13,45 @@ import repositorio.relatorio.*;
 import repositorio.sessao.RepositorioSessao;
 import repositorio.sessao.SessaoConflitanteException;
 import repositorio.sessao.SessaoNaoEncontradaException;
+import repositorio.sessao.TipoDeObjetoNaoSuportado;
 
 public class CadastroSessao {
-	
+
 	private RepositorioSessao repSessao;
 	private ControleRelatorios ctrRelatorio;
-	
+
 	public CadastroSessao(RepositorioSessao repSessao, ControleRelatorios ctrRelatorio) throws IOException{
 		this.repSessao = repSessao;
 		this.ctrRelatorio = ctrRelatorio;
 	}
-	
-	public IteratorSessao getIteratorSessao() {
-		return this.repSessao.getIterator();
+
+	public IteratorSessao getIteratorSessao() throws TipoDeObjetoNaoSuportado {
+		IteratorSessao retorno = null;
+
+		retorno = this.repSessao.getIterator();
+
+		return retorno;
 	}
 
-	public void removerSessao(String idSessao) throws FileNotFoundException, SessaoNaoEncontradaException, IOException, RelatorioNaoEncontradoException {
-		Sessao sessao = this.repSessao.buscar(idSessao);
-		this.repSessao.remover(idSessao);
+	public void removerSessao(String idSessao) throws FileNotFoundException, SessaoNaoEncontradaException, IOException, RelatorioNaoEncontradoException, TipoDeObjetoNaoSuportado {
+		Sessao sessao = this.repSessao.buscar(idSessao);//procura a sessão e copia
+		this.repSessao.remover(idSessao);//remove do repositorio
 		if(this.ctrRelatorio.temRelatorio(sessao.getSala().getCodigo())){
-			this.ctrRelatorio.buscarRelatorio(sessao.getSala().getCodigo()).addTexto(sessao.geraRelatorio());			
+			//Checa se já existe relatório para sua sala, se sim insere os seus dados no relatorio
+			this.ctrRelatorio.buscarRelatorio(sessao.getSala().getCodigo()).getTexto().inserir(sessao.geraRelatorio());			
 		} else {
+			//Se não cria um novo relatorio já inserindo seus dados
 			this.ctrRelatorio.inserirRelatorio(sessao.getSala().getCodigo(), sessao.geraRelatorio());		
 		}
 	}	
-	
-	public void inserirSessao(Sessao sessao) throws FileNotFoundException, IOException, SessaoConflitanteException{
+
+	public void inserirSessao(Sessao sessao) throws FileNotFoundException, IOException, SessaoConflitanteException, TipoDeObjetoNaoSuportado{
+
 		repSessao.inserir(sessao);
+
 	}
-	
-	public Sessao buscarSessao(String id) throws SessaoNaoEncontradaException{
+
+	public Sessao buscarSessao(String id) throws SessaoNaoEncontradaException, TipoDeObjetoNaoSuportado{
 		Sessao retorno = null;
 		retorno = repSessao.buscar(id);
 		return retorno;

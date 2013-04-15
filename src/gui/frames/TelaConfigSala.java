@@ -1,8 +1,6 @@
 package gui.frames;
 
 
-import imagem.Imagens;
-
 import java.awt.FlowLayout;
 
 import javax.imageio.ImageIO;
@@ -49,6 +47,7 @@ public class TelaConfigSala extends JDialog {
 	 * Create the dialog.
 	 */
 	public TelaConfigSala(Sala sala) {
+		setTitle("Marcar cadeiras quebradas");
 		setModal(true);
 		this.sala = sala;
 		setBounds(100, 100, 450, 300);
@@ -94,14 +93,6 @@ public class TelaConfigSala extends JDialog {
 					});
 					panel.add(cadeiras[i][j],gbc_btnNewButton);
 
-					//					JLabel lblNewLabel = new JLabel("Cadeira: "+(i*5+j));
-
-
-					//					GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-					//					gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-					//					gbc_lblNewLabel.gridx = j;
-					//					gbc_lblNewLabel.gridy = i*2+1;
-					//					panel.add(lblNewLabel, gbc_lblNewLabel);
 				}
 			}
 		}
@@ -137,15 +128,24 @@ public class TelaConfigSala extends JDialog {
 
 	private void mudaSala(String text) {
 		int confirma =  JOptionPane.showConfirmDialog(this, "Confirmar mudança no estado da cadeira?");
-		if(confirma == 0){
-			StringTokenizer st = new StringTokenizer(text, "x");
-			String str = st.nextToken();
-			System.out.println(str);
-			int i = Integer.parseInt(str.substring(0, str.length()));
-			int j = Integer.parseInt(st.nextToken());
+				
+		StringTokenizer st = new StringTokenizer(text, "x");
+		String str = st.nextToken();
+		System.out.println(str);
+		int i = Integer.parseInt(str.substring(0, str.length()));
+		int j = Integer.parseInt(st.nextToken());
+		
+		switch(confirma){
+		case 0:
 			boolean estado =  sala.getCadeiras()[i][j].getCadeiraQuebrada();
 			sala.getCadeiras()[i][j].setCadeiraQuebrada(!estado);
+			break;
+		case 1:
+		case 2:
+			this.cadeiras[i][j].setSelected(sala.getCadeiras()[i][j].getCadeiraQuebrada());
+			break;		
 		}
+		
 	}
 
 

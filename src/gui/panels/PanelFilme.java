@@ -81,7 +81,7 @@ public class PanelFilme extends JPanel {
 		});
 		btnAtualizar.setBounds(10, 78, 95, 23);
 		panel.add(btnAtualizar);
-		
+
 		JButton btnAtualizarLista = new JButton("Atualizar");
 		btnAtualizarLista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -103,8 +103,8 @@ public class PanelFilme extends JPanel {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false); 
 		table.setAutoCreateRowSorter(true);
-		
-		
+
+
 		preencheTabela();
 
 	}
@@ -142,14 +142,14 @@ public class PanelFilme extends JPanel {
 	}
 
 	private void preencheTabela(){
-		
+
 		modeloTabela = new DefaultTableModel(
 				new Object[][] {
 				},
 				new String[] {
 						"Nome", "Dura\u00E7\u00E3o", "Classifica\u00E7\u00E3o", "Categoria", "Descri\u00E7\u00E3o"
 				}){
-			
+
 			public Class getColumnClass(int columnIndex) {
 				return String.class;
 			}
@@ -159,20 +159,20 @@ public class PanelFilme extends JPanel {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}};
-			
-		IteratorFilme itr = fachada.getCadFilme().getIteratorFilme();
-		SimpleDateFormat df;
-		df = new SimpleDateFormat("HH:mm:ss");
-		while(itr.hasNext()){
-			Filme filme = itr.next();
-			String nome = filme.getNome();
-			String duracao = df.format(filme.getDuracao());
-			String categoria = filme.getCategoria();
-			String classifica = filme.getClassificacao();
-			String descricao = filme.getDescricao();
-			modeloTabela.addRow(new Object[]{nome,duracao,classifica,categoria,descricao});
-		}
-		
-		table.setModel(modeloTabela);
+
+			IteratorFilme itr = fachada.getCadFilme().getIteratorFilme();
+			SimpleDateFormat df;
+			df = new SimpleDateFormat("HH:mm:ss");
+			while(itr.hasNext()){
+				Filme filme = itr.next();
+				String nome = filme.getNome();
+				String duracao = df.format(filme.getDuracao());
+				String categoria = filme.getCategoria();
+				String classifica = filme.getClassificacao();
+				String descricao = filme.getDescricao();
+				modeloTabela.addRow(new Object[]{nome,duracao,classifica,categoria,descricao});
+			}
+
+			table.setModel(modeloTabela);
 	}
 }

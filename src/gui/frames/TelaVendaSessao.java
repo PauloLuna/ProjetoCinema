@@ -1,8 +1,5 @@
 package gui.frames;
 
-
-import imagem.Imagens;
-
 import java.awt.FlowLayout;
 
 import javax.imageio.ImageIO;
@@ -50,7 +47,9 @@ public class TelaVendaSessao extends JDialog {
 	 * Create the dialog.
 	 */
 	public TelaVendaSessao(Sessao sessao) {
-		setModal(true);
+		setTitle(sessao.getTitulo());
+
+		setModal(true);		
 		this.sessao = sessao;
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -131,13 +130,19 @@ public class TelaVendaSessao extends JDialog {
 
 	private void mudaSessao(String text) {
 		int confirma =  JOptionPane.showConfirmDialog(this, "Confirmar mudança no estado da compra?");
-		if(confirma == 0){
-			StringTokenizer st = new StringTokenizer(text, "x");
-			String str = st.nextToken();
-			int i = Integer.parseInt(str.substring(0, str.length()));
-			int j = Integer.parseInt(st.nextToken());
+		StringTokenizer st = new StringTokenizer(text, "x");
+		String str = st.nextToken();
+		int i = Integer.parseInt(str.substring(0, str.length()));
+		int j = Integer.parseInt(st.nextToken());
+		switch(confirma){
+		case 0:
 			boolean estado =  sessao.getSala().getCadeiras()[i][j].getCadeiraComprada();
 			sessao.getSala().getCadeiras()[i][j].setCadeiraComprada(!estado);
+			break;
+		case 1:
+		case 2:
+			this.cadeiras[i][j].setSelected(sessao.getSala().getCadeiras()[i][j].getCadeiraComprada());
+			break;		
 		}
 	}
 

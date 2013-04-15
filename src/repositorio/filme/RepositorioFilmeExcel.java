@@ -16,13 +16,13 @@ import org.apache.poi.hssf.usermodel.*;
 
 
 
-public class RepositorioFilmeExel implements RepositorioFilme{
+public class RepositorioFilmeExcel implements RepositorioFilme{
 
 	private Sheet folha;//Variável que contém a planilha sendo usada
 	private Workbook wb;//Variável que contém o arquivo do exel virtualmente
 	private String nomeArquivo;
 	
-	public RepositorioFilmeExel(String nomeArquivo, String nomeFolha) throws IOException{
+	public RepositorioFilmeExcel(String nomeArquivo, String nomeFolha) throws IOException{
 		this.nomeArquivo = nomeArquivo;
 		try{//Tenta abrir os dados do arquivo
 			FileInputStream arquivo = new FileInputStream(nomeArquivo);

@@ -23,6 +23,7 @@ import negocio.base.Sessao;
 
 
 import repositorio.filme.FilmeNaoEncontradoException;
+import repositorio.sessao.TipoDeObjetoNaoSuportado;
 
 
 import fachada.Fachada;
@@ -55,7 +56,7 @@ public class PanelSessao extends JPanel {
 				btnRemoverAction();
 			}
 		});
-		btnRemover.setBounds(10, 112, 95, 23);
+		btnRemover.setBounds(10, 78, 95, 23);
 		panel.add(btnRemover);
 
 		JButton btnInserir = new JButton("Inserir");
@@ -67,15 +68,6 @@ public class PanelSessao extends JPanel {
 		btnInserir.setBounds(10, 44, 95, 23);
 		panel.add(btnInserir);
 
-		JButton btnAtualizar = new JButton("Modificar");
-		btnAtualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				btnAtualizarAction();
-			}
-		});
-		btnAtualizar.setBounds(10, 78, 95, 23);
-		panel.add(btnAtualizar);
-		
 		JButton btnAtualizarLista = new JButton("Atualizar");
 		btnAtualizarLista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -89,7 +81,7 @@ public class PanelSessao extends JPanel {
 		splitPane.setLeftComponent(scrollPane);
 
 		table = new JTable();
-		
+
 		preencheTabela();
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
@@ -101,16 +93,12 @@ public class PanelSessao extends JPanel {
 
 
 	}
-	
-	
+
+
 	public void btnInserirAciton(){
 
 		TelaCadastroSessao cadastra = new TelaCadastroSessao(fachada);
 		cadastra.setVisible(true);
-	}
-
-	public void btnAtualizarAction(){
-
 	}
 
 	public void btnRemoverAction(){
@@ -118,9 +106,10 @@ public class PanelSessao extends JPanel {
 		String idSessao = (String)table.getValueAt(linha, 0);
 		try {
 			fachada.getCadSessao().removerSessao(idSessao);
-			JOptionPane.showMessageDialog(this, "Filme excluido com sucesso!");
+			JOptionPane.showMessageDialog(this, "Sessão excluida com sucesso!");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		} 
 	}
@@ -135,7 +124,7 @@ public class PanelSessao extends JPanel {
 						"id","Titulo", "Inicio", "Fim"
 				}){
 
-			
+
 			public Class getColumnClass(int columnIndex) {
 				return String.class;
 			}
@@ -146,7 +135,13 @@ public class PanelSessao extends JPanel {
 				return false;
 			}};
 
-			IteratorSessao itr = fachada.getCadSessao().getIteratorSessao();
+			IteratorSessao itr = null;
+			try {
+				itr = fachada.getCadSessao().getIteratorSessao();
+			} catch (TipoDeObjetoNaoSuportado e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			SimpleDateFormat df;
 			df = new SimpleDateFormat("HH:mm:ss");
 			while(itr.hasNext()){

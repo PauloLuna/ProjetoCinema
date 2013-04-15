@@ -3,14 +3,18 @@ package negocio.base;
 import java.io.Serializable;
 import java.util.Date;
 
+import repositorio.relatorio.RepositorioTextosRelatorios;
+
 public class Relatorio implements Serializable{
+	//Cada relatório responde a uma sala
 	private String nomeSala;
-	private Date dataCriacao;
-	private String texto;
+	private Date dataModificacao;
+	private RepositorioTextosRelatorios texto;
 	
-	public Relatorio(String nomeSala, Date dataCriacao, String texto){
+	public Relatorio(String nomeSala, Date dataModificacao){
 		this.setNomeSala(nomeSala);
-		this.setDataCriacao(dataCriacao);
+		this.setDataModificacao(dataModificacao);
+		RepositorioTextosRelatorios texto = new RepositorioTextosRelatorios();
 		this.setTexto(texto);
 	}
 	
@@ -21,23 +25,17 @@ public class Relatorio implements Serializable{
 	public void setNomeSala(String nomeSala) {
 		this.nomeSala = nomeSala;
 	}
-	public Date getDataCriacao() {
-		return dataCriacao;
+	public Date getDataModificacao() {
+		return dataModificacao;
 	}
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
+	public void setDataModificacao(Date dataModificacao) {
+		this.dataModificacao = dataModificacao;
 	}
-	public String getTexto() {
+	public RepositorioTextosRelatorios getTexto() {
 		return texto;
 	}
-	public void setTexto(String texto) {
+	public void setTexto(RepositorioTextosRelatorios texto) {
 		this.texto = texto;
 	}
-	
-	public void addTexto(String texto){
-		this.texto += "\n\n"+texto;
-	}
-	
-	
 
 }

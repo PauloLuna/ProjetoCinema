@@ -38,6 +38,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
@@ -47,6 +48,7 @@ import javax.swing.JScrollPane;
 
 import repositorio.relatorio.*;
 import repositorio.sessao.SessaoNaoEncontradaException;
+import repositorio.sessao.TipoDeObjetoNaoSuportado;
 
 import javax.swing.JButton;
 import javax.swing.JSplitPane;
@@ -76,20 +78,16 @@ public class TelaVendas extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaVendas(Fachada fachada) {
+		setTitle("Vendas");
 		this.fachada = fachada;
 		setBounds(100, 100, 722, 346);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-
-		
-
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 10, 686, 260);
 
-
-		
 		table = new JTable();
 		preencheTabela();
 		table.setShowHorizontalLines(false);
@@ -140,7 +138,7 @@ public class TelaVendas extends JFrame {
 						"id","Titulo", "Inicio", "Fim"
 				}){
 
-			
+
 			public Class getColumnClass(int columnIndex) {
 				return String.class;
 			}
@@ -151,7 +149,13 @@ public class TelaVendas extends JFrame {
 				return false;
 			}};
 
-			IteratorSessao itr = fachada.getCadSessao().getIteratorSessao();
+			IteratorSessao itr = null;
+			try {
+				itr = fachada.getCadSessao().getIteratorSessao();
+			} catch (TipoDeObjetoNaoSuportado e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			SimpleDateFormat df;
 			df = new SimpleDateFormat("HH:mm:ss");
 			while(itr.hasNext()){
@@ -164,8 +168,11 @@ public class TelaVendas extends JFrame {
 			}
 
 			table.setModel(modeloTabela);
+			TableColumn codigoColumn = table.getColumnModel().getColumn(0);  
+			codigoColumn.setMinWidth(0);  
+			codigoColumn.setMaxWidth(0);  
 	}
-	
+
 
 	private void btnAbrirAction() {
 		String id = (String) table.getValueAt(table.getSelectedRow(), 0);
@@ -173,7 +180,7 @@ public class TelaVendas extends JFrame {
 			Sessao sessao = fachada.getCadSessao().buscarSessao(id);
 			TelaVendaSessao tela = new TelaVendaSessao(sessao);
 			tela.setVisible(true);
-		} catch (SessaoNaoEncontradaException e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 	}

@@ -11,44 +11,35 @@ import negocio.colecao.*;
 
 import repositorio.filme.RepositorioFilme;
 import repositorio.filme.RepositorioFilmeArray;
-import repositorio.filme.RepositorioFilmeExel;
+import repositorio.filme.RepositorioFilmeExcel;
 import repositorio.filme.RepositorioFilmeLista;
 import repositorio.relatorio.*;
-import repositorio.sala.RepositorioSala;
-import repositorio.sala.RepositorioSalaArray;
-import repositorio.sala.RepositorioSalaLista;
+import repositorio.sala.*;
 import repositorio.sessao.RepositorioSessao;
 import repositorio.sessao.RepositorioSessaoArray;
-import repositorio.sessao.RepositorioSessaoExel;
+import repositorio.sessao.RepositorioSessaoExcel;
 import repositorio.sessao.RepositorioSessaoLista;
 
 
 public class Fachada {
 
+	//Objetos de controle dos dados
 	private CadastroFilme cadFilme;
 	private CadastroSessao cadSessao;
 	private ControleRelatorios controleRelatorios;
 	private CadastroSala cadSala;
 
-	public Fachada() throws IOException{
-		File dir = new File("repositorios");
+	public Fachada() throws IOException, FalhaNaConfiguracaoException, ClassNotFoundException{
+		File dir = new File("meuCine/repositorios");//Diretório para os arquivos do programa
 		dir.mkdirs();
-		
+
 		String tipo = leConfiguracao();
 		iniciaControle(tipo);
 	}
 
-	public CadastroFilme getCadFilme() {
-		return this.cadFilme;
-	}
-
-	public CadastroSessao getCadSessao() {
-		return this.cadSessao;
-	}
-
 	private String leConfiguracao(){
-		
-		File file = new File("repositorios/config.txt");
+
+		File file = new File("meuCine/repositorios/config.txt");//Arquivo de configuração
 		String tipo = "";
 		try {
 			Scanner scn = new Scanner(file);
@@ -56,8 +47,9 @@ public class Fachada {
 			if(scn.hasNextLine()){
 				tipo = scn.nextLine();
 			}
-			
+
 		} catch (FileNotFoundException e1) {
+			//Caso o Arquivo não exista cria um arquivo padrão
 
 			FileWriter fw;
 			BufferedWriter bw;
@@ -76,40 +68,41 @@ public class Fachada {
 			}
 
 		}
-		
+
 		return tipo;
 	}
 
-	private void iniciaControle(String tipo) throws IOException{
+	private void iniciaControle(String tipo) throws IOException, FalhaNaConfiguracaoException, ClassNotFoundException{
 		RepositorioFilme repFilme;
 		RepositorioSessao repSessao;
 		RepositorioSala repSala = null;
-		
+		//Seleção e inicialização dos diferentes tipos de repositório
+
 		if(tipo.equalsIgnoreCase("TAD")){
-			
+
 			repFilme = new RepositorioFilmeLista();
 			repSessao = new RepositorioSessaoLista();
 			repSala = new RepositorioSalaLista();
-			
+
 		}else if(tipo.equalsIgnoreCase("Arquivo")){
-			
-			repFilme = new RepositorioFilmeExel("repositorios/filmes.xls", "Filmes");
-			repSessao = new RepositorioSessaoExel("repositorios/sessoes.xls", "Sessoes");
-			//repSala = new RepositorioSalaExel("repositorios/salas.xls", "Salas");
-			
+
+			repFilme = new RepositorioFilmeExcel("meuCine/repositorios/filmes.xls", "Filmes");
+			repSessao = new RepositorioSessaoExcel("meuCine/repositorios/sessoes.xls", "Sessoes");
+			repSala = new RepositorioSalaExcel("meuCine/repositorios/salas.xls", "Salas","Cadeiras");
+
 		}else if(tipo.equalsIgnoreCase("Array")){
-			
+
 			repFilme = new RepositorioFilmeArray();
 			repSessao = new RepositorioSessaoArray();
 			repSala = new RepositorioSalaArray();
-			
+
 		}else{
-			throw new RuntimeException("Erro ainda vou criar a excessão mas deu merda");
+			throw new FalhaNaConfiguracaoException();
 		}
-		
-		cadFilme = new CadastroFilme(repFilme);
+
+		setCadFilme(new CadastroFilme(repFilme));
 		setControleRelatorios(new ControleRelatorios());
-		cadSessao = new CadastroSessao(repSessao, controleRelatorios);
+		setCadSessao(new CadastroSessao(repSessao, controleRelatorios));
 		setCadSala(new CadastroSala(repSala));
 	}
 
@@ -127,5 +120,21 @@ public class Fachada {
 
 	public void setCadSala(CadastroSala cadSala) {
 		this.cadSala = cadSala;
+	}
+
+	public CadastroFilme getCadFilme() {
+		return cadFilme;
+	}
+
+	public void setCadFilme(CadastroFilme cadFilme) {
+		this.cadFilme = cadFilme;
+	}
+
+	public CadastroSessao getCadSessao() {
+		return cadSessao;
+	}
+
+	public void setCadSessao(CadastroSessao cadSessao) {
+		this.cadSessao = cadSessao;
 	}
 }

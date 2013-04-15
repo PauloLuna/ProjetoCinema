@@ -6,6 +6,7 @@ public class SessaoFechadaFilme extends SessaoPublicaFilme {
 
 	public SessaoFechadaFilme(String id, Filme filme, Sala sala,
 			Date horaInicio) {
+		//Sessão de filme q já começa totalmente vendida
 		super(id, filme, sala, horaInicio);
 		Cadeira[][] cad = this.getSala().getCadeiras();
 		for(int i = 0; i < cad.length; i++){

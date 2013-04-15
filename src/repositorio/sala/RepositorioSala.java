@@ -16,6 +16,6 @@ public interface RepositorioSala {
 	public void remover(String nome)throws SalaNaoEncontradaException, FileNotFoundException, IOException;
 	public void atualizar(Sala Sala)throws SalaNaoEncontradaException, FileNotFoundException, IOException;
 	public boolean temSala(String nome);
-	public IteratorSala getIterator();
+	public IteratorSala getIterator() throws SalaNaoEncontradaException;
 	
 }

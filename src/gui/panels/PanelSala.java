@@ -39,7 +39,7 @@ public class PanelSala extends JPanel {
 	 */
 	public PanelSala(Fachada fachada) {
 		this.fachada = fachada;
-		
+
 		setLayout(new CardLayout(0, 0));
 
 		JSplitPane splitPane = new JSplitPane();
@@ -55,15 +55,15 @@ public class PanelSala extends JPanel {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false); 
 		table.setAutoCreateRowSorter(true);
-		
+
 		preencheTabela();
-		
+
 		scrollPane.setViewportView(table);
 
 		JPanel panel = new JPanel();
 		splitPane.setRightComponent(panel);
 		panel.setLayout(null);
-		
+
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -72,7 +72,7 @@ public class PanelSala extends JPanel {
 		});
 		btnCadastrar.setBounds(10, 44, 89, 23);
 		panel.add(btnCadastrar);
-		
+
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -81,7 +81,7 @@ public class PanelSala extends JPanel {
 		});
 		btnModificar.setBounds(10, 78, 89, 23);
 		panel.add(btnModificar);
-		
+
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -90,7 +90,7 @@ public class PanelSala extends JPanel {
 		});
 		btnRemover.setBounds(10, 112, 89, 23);
 		panel.add(btnRemover);
-		
+
 		JButton btnAtualizar = new JButton("Atualizar");
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -109,10 +109,10 @@ public class PanelSala extends JPanel {
 				new Object[][] {
 				},
 				new String[] {
-						 "C\u00F3digo", "Cadeiras","Cadeiras quebradas"
+						"C\u00F3digo", "Cadeiras","Cadeiras quebradas"
 				}
 				) {
-			
+
 			public Class getColumnClass(int columnIndex) {
 				return String.class;
 			}
@@ -122,24 +122,29 @@ public class PanelSala extends JPanel {
 			}
 		};
 
-			IteratorSala itr = fachada.getCadSala().getIteratorSala();
-			
-			while(itr.hasNext()){
-				Sala sala = itr.next();
-				String codigo = sala.getCodigo();
-				String numCadeiras = ""+(sala.getNumFilas()*sala.getNumColunas());
-				String numCadeirasQuebradas = "";
-				modeloTabela.addRow(new Object[]{codigo, numCadeiras, numCadeirasQuebradas});
-			}
+		IteratorSala itr =null ;
+		try {
+			itr = fachada.getCadSala().getIteratorSala();
+		} catch (SalaNaoEncontradaException e) {
+			JOptionPane.showMessageDialog(this, "Erro interno!");
+		}
 
-			table.setModel(modeloTabela);
+		while(itr.hasNext()){
+			Sala sala = itr.next();
+			String codigo = sala.getCodigo();
+			String numCadeiras = ""+(sala.getNumFilas()*sala.getNumColunas());
+			String numCadeirasQuebradas = "";
+			modeloTabela.addRow(new Object[]{codigo, numCadeiras, numCadeirasQuebradas});
+		}
+
+		table.setModel(modeloTabela);
 	}
-	
+
 	private void cadastrarAction() {
 		TelaCadastroSala tela = new TelaCadastroSala(fachada);
 		tela.setVisible(true);
 	}
-	
+
 	private void btnModificarAction() {
 		String codigo = (String)modeloTabela.getValueAt(table.getSelectedRow(), 0);
 		Sala sala;
@@ -150,9 +155,9 @@ public class PanelSala extends JPanel {
 		} catch (SalaNaoEncontradaException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
-		
+
 	}
-	
+
 
 	private void btnRemoverAction() {
 		String codigo = (String)modeloTabela.getValueAt(table.getSelectedRow(), 0);

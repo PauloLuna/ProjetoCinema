@@ -17,11 +17,12 @@ public abstract class Sessao {
 	
 	
 	public boolean checaConflito(Sessao sessao) {
-		boolean retorno=true;
+		boolean retorno=false;
 		if(this.sala.equals(sessao.getSala())){
-			if(sessao.horaFim.compareTo(this.horaInicio)==-1){
+			retorno = true;
+			if(sessao.horaFim.compareTo(this.horaInicio)<=0){
 				retorno = false;
-			} else if(sessao.horaInicio.compareTo(this.horaFim)==1){
+			} else if(sessao.horaInicio.compareTo(this.horaFim)>=0){
 				retorno = false;
 			}
 		}
@@ -65,6 +66,7 @@ public abstract class Sessao {
 	public abstract String geraRelatorio();
 	
 	public int[] contaCadeiras(){
+		//Retorna um array com 2 ints informando o numero de cadeiras compradas e quebradas
 		int[] retorno = new int[2];
 		retorno[0] = 0;
 		retorno[1] = 0;

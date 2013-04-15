@@ -1,4 +1,4 @@
-package gui;
+package gui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -13,11 +13,11 @@ import fachada.Fachada;
 import gui.panels.PanelAdministracao;
 
 import repositorio.filme.RepositorioFilme;
-import repositorio.filme.RepositorioFilmeExel;
+import repositorio.filme.RepositorioFilmeExcel;
 
 import java.awt.CardLayout;
 
-public class TestePanels extends JFrame {
+public class TelaAdministracao extends JFrame {
 
 	private JPanel  contentPane;
 	private RepositorioFilme repositorioFilme;
@@ -29,7 +29,8 @@ public class TestePanels extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TestePanels(Fachada fachada) {
+	public TelaAdministracao(Fachada fachada) {
+		setTitle("Administra\u00E7\u00E3o");
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 778, 380);

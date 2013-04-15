@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import repositorio.relatorio.TextoRelatorio;
+
 import negocio.base.Relatorio;
 
 
@@ -24,12 +26,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 public class TelaRelatorio extends JFrame {
 
 	private JPanel contentPane;
 	private JTextPane textPane;
+	private Iterator iteratorTexto;
 
 	
 	/**
@@ -37,6 +41,8 @@ public class TelaRelatorio extends JFrame {
 	 */
 	public TelaRelatorio(Relatorio relatorio) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		this.iteratorTexto = relatorio.getTexto().iterator();
 		setBounds(100, 100, 563, 590);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,13 +64,23 @@ public class TelaRelatorio extends JFrame {
 						TelaRelatorio.class
 								.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
 		toolBar.add(btnSalvarTexto);
+		
+		JButton btnmais = new JButton(">>Mais");
+		btnmais.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnMaisAction();
+			}
+
+		});
+		toolBar.add(btnmais);
 
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 
 		textPane = new JTextPane();
 		textPane.setEditable(false);
-		textPane.setText(relatorio.getTexto());
+		if(this.iteratorTexto.hasNext())
+		textPane.setText(((TextoRelatorio)iteratorTexto.next()).getTexto());
 		scrollPane.setViewportView(textPane);
 	}
 
@@ -125,5 +141,12 @@ public class TelaRelatorio extends JFrame {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
+	}
+	
+
+	private void btnMaisAction() {
+		if(this.iteratorTexto.hasNext())
+			textPane.setText(textPane.getText()+"\n\n"+((TextoRelatorio)iteratorTexto.next()).getTexto());
+		else JOptionPane.showMessageDialog(this, "Fim do relatório");
 	}
 }

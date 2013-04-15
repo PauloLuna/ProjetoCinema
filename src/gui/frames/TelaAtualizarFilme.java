@@ -164,7 +164,7 @@ public class TelaAtualizarFilme extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}	
-		
+		//Preenchendo a tela com os valores do filme
 		nomeTf.setText(filme.getNome());
 		GregorianCalendar gc = new GregorianCalendar();
 		gc.setTime(filme.getDuracao());
@@ -185,6 +185,8 @@ public class TelaAtualizarFilme extends JDialog {
 					categoriaTf.getText(), descricaoEp.getText());
 						
 			JOptionPane.showMessageDialog(this, "Filme atualizado com sucesso!");
+		} catch(IOException e1){
+			JOptionPane.showMessageDialog(this, "Erro interno.");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}

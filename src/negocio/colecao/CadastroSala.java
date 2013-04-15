@@ -27,6 +27,7 @@ public class CadastroSala {
 	
 	public void criarSala(String codigo, int numFilas, int numColunas) throws SalaConflitanteException, FileNotFoundException, IOException{
 		Sala sala = new Sala(codigo, numFilas, numColunas);
+		//Checa a existencia da sala para se preciso levantar o erro
 		if(this.repSala.temSala(codigo)) throw new SalaConflitanteException();
 		this.repSala.inserir(sala);
 	}
@@ -35,7 +36,7 @@ public class CadastroSala {
 		this.repSala.remover(codigo);
 	}
 	
-	public IteratorSala getIteratorSala(){
+	public IteratorSala getIteratorSala() throws SalaNaoEncontradaException{
 		return this.repSala.getIterator();
 	}
 	

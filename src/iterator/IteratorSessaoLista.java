@@ -20,6 +20,7 @@ public class IteratorSessaoLista implements IteratorSessao {
 
 	public Sessao next() {
 		Sessao retorno = this.Sessao;
+		//Obtém os dados do iterator do próximo elemento da lista
 		IteratorSessaoLista itr = (IteratorSessaoLista)this.proximo.getIterator();
 		this.Sessao = itr.Sessao;
 		this.proximo = itr.proximo;

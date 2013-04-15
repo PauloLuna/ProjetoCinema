@@ -19,13 +19,13 @@ import repositorio.relatorio.RepositorioRelatorio;
 public class ControleRelatorios {
 
 	private RepositorioRelatorio repRelatorio;
-	
-	public ControleRelatorios(){
+
+	public ControleRelatorios() throws ClassNotFoundException{
 		try {
+			//Tenta deserializar todo repositório
 			deserializa();
-		} catch (ClassNotFoundException e) {
-			System.out.println("Merda na classe");
 		} catch (IOException e) {
+			//Caso tenha problemas com o arquivo cria um novo repositorio
 			this.repRelatorio = new RepositorioRelatorio();
 		}
 	}
@@ -37,10 +37,10 @@ public class ControleRelatorios {
 		} catch (RelatorioNaoEncontradoException e) {
 			retorno = false;
 		}
-		
+
 		return retorno;
 	}
-	
+
 	public RepositorioRelatorio getRepRelatorio() {
 		return repRelatorio;
 	}
@@ -48,25 +48,35 @@ public class ControleRelatorios {
 	public void setRepRelatorio(RepositorioRelatorio repRelatorio) {
 		this.repRelatorio = repRelatorio;
 	}
-	
+
 	public IteratorRelatorio getIteratorRelatorio(){
 		return this.repRelatorio.getIterator();
 	}
-	
+
 	public void inserirRelatorio(String nomeSala, String texto) throws IOException{
-		Relatorio relatorio = new Relatorio(nomeSala, new Date(), texto);
-		repRelatorio.inserir(relatorio);
+		Relatorio relatorio;
+
+		try {
+			//procura um relatorio da sala para adcionar os dados
+			repRelatorio.buscar(nomeSala).getTexto().inserir(texto);
+		} catch (RelatorioNaoEncontradoException e) {
+			//Caso não encontre cria um relatorio
+			relatorio = new Relatorio(nomeSala, new Date());
+			relatorio.getTexto().inserir(texto);
+			repRelatorio.inserir(relatorio);
+		}
+
 		serializar();
 	}
-	
+
 	public Relatorio buscarRelatorio(String nomeSala) throws RelatorioNaoEncontradoException{
 		return repRelatorio.buscar(nomeSala);
 	}
-	
+
 	public void removeRelatorio(String nomeSala) throws RelatorioNaoEncontradoException{
 		repRelatorio.remover(nomeSala);
 	}
-	
+
 	private void deserializa() throws IOException, ClassNotFoundException{
 		FileInputStream fisRelatorio = null;
 		ObjectInputStream oisRelatorio = null;
@@ -80,8 +90,9 @@ public class ControleRelatorios {
 		fisRelatorio.close();
 
 	}
-	
+
 	public void serializar() throws IOException{
+		//Serializa todo repositorio onde todas as classes implementam serializable
 		FileOutputStream fosRelatorio = null;
 		ObjectOutputStream oosRelatorio = null; 
 

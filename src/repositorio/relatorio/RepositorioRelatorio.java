@@ -1,6 +1,7 @@
 package repositorio.relatorio;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 import negocio.base.Relatorio;
 

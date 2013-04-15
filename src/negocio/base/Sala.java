@@ -42,13 +42,15 @@ public class Sala {
 	public int getNumColunas(){
 		return this.numColunas;
 	}
-
+	
 	
 	// Métodos SET
 	public void setCodigo(String codigo){
 		this.codigo = codigo;
 	}
-	
+	public void setCadeiras(Cadeira[][] cadeiras){
+		this.cadeiras = cadeiras;
+	}
 	
 	
 	// OUTROS MÉTODOS
