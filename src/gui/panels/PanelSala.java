@@ -150,7 +150,7 @@ public class PanelSala extends JPanel {
 		Sala sala;
 		try {
 			sala = fachada.getCadSala().procurarSala(codigo);
-			TelaConfigSala tela = new TelaConfigSala(sala);
+			TelaConfigSala tela = new TelaConfigSala(sala,fachada);
 			tela.setVisible(true);
 		} catch (SalaNaoEncontradaException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());

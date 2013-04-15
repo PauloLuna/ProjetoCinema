@@ -139,7 +139,7 @@ public class TelaRelatorio extends JFrame {
 			fwArquivo.close();
 			
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
+			JOptionPane.showMessageDialog(this, "Erro ao salvar");
 		}
 	}
 	

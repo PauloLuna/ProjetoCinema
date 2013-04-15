@@ -31,14 +31,13 @@ public class RepositorioSessaoLista implements RepositorioSessao {
 		return retorno;
 	}
 
-	public void inserir(Sessao sessao) throws SessaoConflitanteException {
+	public void inserir(Sessao sessao){
 		if(this.sessao==null){//Checa fim de lista se achar insere os dados
 			sessao.setId(""+indice);
 			indice++;
 			this.sessao = sessao;
 			this.proximo = new RepositorioSessaoLista();
 		} else {//Se não manda o proximo elemento tentar inserir
-			if(this.sessao.checaConflito(sessao)) throw new SessaoConflitanteException();
 			this.proximo.inserir(sessao);
 		}
 	}

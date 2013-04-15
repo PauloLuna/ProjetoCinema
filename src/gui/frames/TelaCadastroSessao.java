@@ -300,11 +300,17 @@ public class TelaCadastroSessao extends JDialog {
 
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 		while(itr.hasNext()){
-			Sessao sessao = itr.next();
-			if(sessao.getSala().getCodigo().equals((String)sala.getSelectedItem())){
-				modelo.addRow(new Object[]{df.format(sessao.getHoraInicio()),df.format(sessao.getHoraFim())});
-				table.getRowSorter().toggleSortOrder(0);
+			Sessao sessao;
+			try {
+				sessao = itr.next();
+				if(sessao.getSala().getCodigo().equals((String)sala.getSelectedItem())){
+					modelo.addRow(new Object[]{df.format(sessao.getHoraInicio()),df.format(sessao.getHoraFim())});
+					table.getRowSorter().toggleSortOrder(0);
+				}
+			} catch (TipoDeObjetoNaoSuportado e) {
+				JOptionPane.showMessageDialog(this, "Erro interno: "+e.getMessage() );
 			}
+			
 		}
 	}
 

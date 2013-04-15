@@ -47,6 +47,10 @@ public class CadastroSessao {
 
 	public void inserirSessao(Sessao sessao) throws FileNotFoundException, IOException, SessaoConflitanteException, TipoDeObjetoNaoSuportado{
 
+		IteratorSessao itr = repSessao.getIterator();
+		while(itr.hasNext()){
+			if(itr.next().checaConflito(sessao))throw new SessaoConflitanteException();
+		}
 		repSessao.inserir(sessao);
 
 	}
@@ -55,6 +59,10 @@ public class CadastroSessao {
 		Sessao retorno = null;
 		retorno = repSessao.buscar(id);
 		return retorno;
+	}
+	
+	public void atualizaSessao(Sessao sessao) throws SessaoNaoEncontradaException, IOException, TipoDeObjetoNaoSuportado, SessaoConflitanteException{
+		repSessao.atualizar(sessao);
 	}
 
 }

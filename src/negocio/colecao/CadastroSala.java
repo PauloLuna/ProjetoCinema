@@ -45,5 +45,9 @@ public class CadastroSala {
 		retorno = repSala.buscar(codigo);
 		return retorno;
 	}
+	
+	public void atualizaSala(Sala sala) throws SalaNaoEncontradaException, IOException{
+		this.repSala.atualizar(sala);
+	}
 
 }

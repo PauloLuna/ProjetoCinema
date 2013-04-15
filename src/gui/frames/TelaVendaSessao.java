@@ -24,6 +24,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 
+import repositorio.sessao.SessaoConflitanteException;
+import repositorio.sessao.SessaoNaoEncontradaException;
+import repositorio.sessao.TipoDeObjetoNaoSuportado;
+
 import negocio.base.Sessao;
 import negocio.base.Sessao;
 
@@ -40,14 +44,16 @@ public class TelaVendaSessao extends JDialog {
 	private JToggleButton[][] cadeiras;
 	private JPanel panel;
 	private Sessao sessao;
+	private Fachada fachada;
 
 
 
 	/**
 	 * Create the dialog.
 	 */
-	public TelaVendaSessao(Sessao sessao) {
+	public TelaVendaSessao(Sessao sessao, Fachada fachada) {
 		setTitle(sessao.getTitulo());
+		this.fachada = fachada;
 
 		setModal(true);		
 		this.sessao = sessao;
@@ -130,6 +136,7 @@ public class TelaVendaSessao extends JDialog {
 
 	private void mudaSessao(String text) {
 		int confirma =  JOptionPane.showConfirmDialog(this, "Confirmar mudança no estado da compra?");
+		
 		StringTokenizer st = new StringTokenizer(text, "x");
 		String str = st.nextToken();
 		int i = Integer.parseInt(str.substring(0, str.length()));
@@ -144,6 +151,13 @@ public class TelaVendaSessao extends JDialog {
 			this.cadeiras[i][j].setSelected(sessao.getSala().getCadeiras()[i][j].getCadeiraComprada());
 			break;		
 		}
+		try {
+			fachada.getCadSessao().atualizaSessao(sessao);
+		}catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Erro interno!");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}  
 	}
 
 

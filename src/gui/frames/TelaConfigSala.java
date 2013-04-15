@@ -25,6 +25,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 
+import repositorio.sala.SalaNaoEncontradaException;
+
 import negocio.base.Sala;
 
 import fachada.Fachada;
@@ -40,13 +42,15 @@ public class TelaConfigSala extends JDialog {
 	private JToggleButton[][] cadeiras;
 	private JPanel panel;
 	private Sala sala;
+	private Fachada fachada;
 
 
 
 	/**
 	 * Create the dialog.
 	 */
-	public TelaConfigSala(Sala sala) {
+	public TelaConfigSala(Sala sala, Fachada fachada) {
+		this.fachada = fachada;
 		setTitle("Marcar cadeiras quebradas");
 		setModal(true);
 		this.sala = sala;
@@ -131,8 +135,7 @@ public class TelaConfigSala extends JDialog {
 				
 		StringTokenizer st = new StringTokenizer(text, "x");
 		String str = st.nextToken();
-		System.out.println(str);
-		int i = Integer.parseInt(str.substring(0, str.length()));
+		int i = Integer.parseInt(str);
 		int j = Integer.parseInt(st.nextToken());
 		
 		switch(confirma){
@@ -146,10 +149,19 @@ public class TelaConfigSala extends JDialog {
 			break;		
 		}
 		
+		try {
+			this.fachada.getCadSala().atualizaSala(sala);
+		} catch (SalaNaoEncontradaException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Erro interno!");
+		}
+		
 	}
 
 
 	private void btnOkAction() {
+		
 		this.dispose();
 	}
 }

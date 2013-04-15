@@ -145,12 +145,18 @@ public class PanelSessao extends JPanel {
 			SimpleDateFormat df;
 			df = new SimpleDateFormat("HH:mm:ss");
 			while(itr.hasNext()){
-				Sessao sessao = itr.next();
-				String id = sessao.getId();
-				String filme = sessao.getTitulo();
-				String inicio = df.format(sessao.getHoraInicio());
-				String fim = df.format(sessao.getHoraFim());
-				modeloTabela.addRow(new Object[]{id,filme,inicio,fim});
+				Sessao sessao;
+				try {
+					sessao = itr.next();
+					String id = sessao.getId();
+					String filme = sessao.getTitulo();
+					String inicio = df.format(sessao.getHoraInicio());
+					String fim = df.format(sessao.getHoraFim());
+					modeloTabela.addRow(new Object[]{id,filme,inicio,fim});
+				} catch (TipoDeObjetoNaoSuportado e) {
+					JOptionPane.showMessageDialog(this, "Erro interno: "+e.getMessage() );
+				}
+				
 			}
 
 			table.setModel(modeloTabela);

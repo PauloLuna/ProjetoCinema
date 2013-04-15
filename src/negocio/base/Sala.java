@@ -57,8 +57,7 @@ public class Sala {
 	public Sala getCopiaObjeto(){
 		/*
 		 * Faz um copia do objeto  e a retorna 
-		 */
-		
+		 */		
 		
 		boolean estado;
 		Sala sala;

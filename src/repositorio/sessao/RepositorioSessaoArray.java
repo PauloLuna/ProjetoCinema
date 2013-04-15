@@ -23,7 +23,7 @@ public class RepositorioSessaoArray implements RepositorioSessao{
 	}
 
 
-	public void inserir(Sessao sessao) throws SessaoConflitanteException {
+	public void inserir(Sessao sessao){
 		sessao.setId(""+indice);
 		if(this.indice == this.sessoes.length){
 			Sessao[] apoio = new Sessao[this.sessoes.length*2];
@@ -32,11 +32,7 @@ public class RepositorioSessaoArray implements RepositorioSessao{
 			}
 			this.sessoes = apoio;
 		}
-		for(int i = 0; i< this.indice; i++){
-			if(this.sessoes[i].checaConflito(sessao)){
-				throw new SessaoConflitanteException();
-			}
-		}
+		
 		this.sessoes[indice] = sessao;
 		this.indice++;
 	}

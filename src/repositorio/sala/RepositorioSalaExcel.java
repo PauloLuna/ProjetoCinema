@@ -1,276 +1,124 @@
 package repositorio.sala;
 
-import iterator.IteratorSalaArray;
+import iterator.IteratorFilmeExel;
+import iterator.IteratorSala;
+import iterator.IteratorSalaExcel;
 
 import java.io.FileInputStream;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import negocio.base.*;
+import repositorio.filme.FilmeNaoEncontradoException;
+
+import negocio.base.Cadeira;
+import negocio.base.Sala;
 
 public class RepositorioSalaExcel implements RepositorioSala {
+
+	private Sheet folha;//Variável que contém a planilha sendo usada
+	private Workbook wb;//Variável que contém o arquivo do exel virtualmente
 	private String nomeArquivo;
-	private Sheet folha;
-	private Workbook wb;
-	
-	private int indiceFinal;
-	
-	public RepositorioSalaExcel(String nomeArquivo, String nomeFolha,String nomeFolhaCadeiras) throws IOException{
+
+	public RepositorioSalaExcel(String nomeArquivo, String nomeFolha) throws IOException{
 		this.nomeArquivo = nomeArquivo;
-		this.indiceFinal = 0;
-		
-		// Checando se o Arquivo existe, se nï¿½o cria um novo
-		try{
+		try{//Tenta abrir os dados do arquivo
 			FileInputStream arquivo = new FileInputStream(nomeArquivo);
-			
-			wb = new HSSFWorkbook();
-			//Pegando as duas planilhas a serem usadas
-			this.folha = wb.getSheet(nomeFolha);
-			
+			wb = new HSSFWorkbook(arquivo);
+			folha = wb.getSheet(nomeFolha);
 			arquivo.close();
-		}
-		catch(FileNotFoundException erro){
+		}catch(FileNotFoundException e){//Se o arquivo não for encontrado cria os dados de um novo arquivo
 			wb = new HSSFWorkbook();
-			//Criando as duas planilhas a serem usadas
-			this.folha = wb.createSheet(nomeFolha);
+			folha = wb.createSheet(nomeFolha);
 		}
-		
-	}// Fim do contrutor
-	
-	
-	// MÃ©todos da INTERFACE
-	public Sala buscar(String codigo) throws SalaNaoEncontradaException {
-		int indice;
-		int i = 0;
-		Sala sala;
 
-		// Buscando e devolvendo o objeto se ele existir
-		sala = this.instanciandoSalaObjeto(codigo);
-		
+	}
+
+	@Override
+	public Sala buscar(String nome) throws SalaNaoEncontradaException {
+		int indice = buscarIndice(nome);//Procura o índice do filme na planilha
+		Row row = this.folha.getRow(indice);//Copia a linha
+		Sala sala =	ManipuladorSalaExcel.leSala(row);
 		return sala;
 	}
 
-	//MÃ©todos da INTERFACE
-	public void inserir(Sala sala) throws SalaConflitanteException, IOException {
-		//Inserindo o objeto
-		this.instanciandoSalaExcel(sala);
-	}
-
-
-	public void remover(String codigo) throws SalaNaoEncontradaException, IOException {
-		{
-			int indice;
-			
-			//Buscando row do objeto
-			indice = this.getLinhaSala(codigo);
-		
-			Row row = this.folha.getRow(indice);
-			Row rowFinal = this.folha.getRow(indiceFinal - 1);
-			
-			// Passando o codigo do ultimo para o primeiro
-			Cell cell =  row.getCell(0);
-			Cell cellFinal = rowFinal.getCell(0);
-			
-			cell.setCellValue(cellFinal.getStringCellValue());
-			
-			//ExcluÃ­ndo as cell dos ultimo objeto
-			cellFinal.setCellFormula(null);
-
-			// Passando numFilas
-			cell =  row.getCell(1);
-			cellFinal = rowFinal.getCell(1);
-			
-			cell.setCellValue(cellFinal.getStringCellValue());
-			
-			//ExcluÃ­ndo as cell dos ultimo objeto
-			cellFinal.setCellFormula(null);
-			
-			// Passando numColunas
-		
-			cell =  row.getCell(2);
-			cellFinal = rowFinal.getCell(2);
-			
-			cell.setCellValue(cellFinal.getStringCellValue());
-			
-			//ExcluÃ­ndo as cell dos ultimo objeto
-			cellFinal.setCellFormula(null);
-			
-			FileOutputStream arquivo = new FileOutputStream(this.nomeArquivo);
-			wb.write(arquivo);
-			arquivo.close();
-		}
-	}
-
-	
-	public void atualizar(Sala sala, String codigo) throws SalaNaoEncontradaException, IOException {
-		int indice;
-					
-		// Primeiro removemos o objeto
-		this.remover(codigo);
-			
-		// Atualizando o objeto no Excel
-		this.instanciandoSalaExcel(sala);
-
-	}	
-	// Retornar qual linha estï¿½ o objeto - Mï¿½todo privado da classe
-	private int getLinhaSala(String codigo) throws SalaNaoEncontradaException{
-		// O que indentifica a sala ï¿½ seu codigo
+	@Override
+	public void inserir(Sala sala) throws FileNotFoundException, IOException {
 		int indice = 0;
-		boolean procurando = true;		
-		int i = 0;
-		
-		while (procurando){
-			Row row = this.folha.getRow(i);
-			
-			if (row.getCell(i) == null){
-				// Se a linha ï¿½ nula estï¿½o acabou a procura, objeto nï¿½o encontrado
-				SalaNaoEncontradaException erro;
-				erro = new SalaNaoEncontradaException();
-				throw erro;
-			}
-			else if (row.getCell(0).getStringCellValue().equals(codigo)) {
-				indice = i;
-				procurando = false;
-			}
-	
-			// Adicionando valores 
-			i ++;
-		}
+		while(this.folha.getRow(indice)!=null) indice++;//Obtém o primeiro índice de linha livre para não sobrecarregar a planilha
+		Row row = folha.createRow(indice);// cria uma nova linha
+		ManipuladorSalaExcel.escreveSala(row, sala);
+		gravar();
 
-		return indice;
-	} // Fim do mï¿½todo getLinhaSala
-	
-	public IteratorSalaArray getIterator() throws SalaNaoEncontradaException {
-		IteratorSalaArray iterator;
-		Sala[] salas = null;
-		int indice = indiceFinal - 1;
-		
-		salas = new Sala[indiceFinal];
-		
-		while (indice >= 0) {
-			if (indiceFinal == 0){
-				iterator = new IteratorSalaArray(salas);
-			}
-			else {
-			salas[indice] = lerObjetoSala(indiceFinal);
-			}
-		} // Fim do While
-	
-		iterator = new IteratorSalaArray(salas);
-		return iterator;
-	}
-	// Obtem uma linha do excel(das planilhas folha e folhaCadeira) e instacia um objeto sala e o devove
-	private Sala instanciandoSalaObjeto(String codigo) throws SalaNaoEncontradaException{
-		Sala sala;
-		
-		int numFilas;
-		int numColunas;
-		int indice;
-		
-		//Buscando objeto
-		indice = this.getLinhaSala(codigo);
-		
-		//Pegando dados do excel
-		Row row = this.folha.getRow(indice);
-		
-		Cell cell = row.getCell(1);
-		
-		numFilas = Integer.parseInt(cell.getStringCellValue());
-				
-		cell = row.getCell(2);
-
-		numColunas = Integer.parseInt(cell.getStringCellValue());
-	
-		// Construindo o objeto sala
-		sala = new Sala(codigo,numFilas, numColunas);
-		
-		return sala;
-	}
-	
-	private Sala lerObjetoSala(int indice) throws SalaNaoEncontradaException{
-		Sala sala;
-		
-		int numFilas;
-		int numColunas;
-		String codigo;
-		
-		Cell cell;
-		Row row;
-		
-		//Pegando dados do excel		
-		row = this.folha.getRow(indice);
-		
-		// Pegando codigo
-		cell = row.getCell(0);
-		codigo = cell.getStringCellValue();		
-		
-		cell = row.getCell(1);
-		
-		numFilas = Integer.parseInt(cell.getStringCellValue());
-				
-		cell = row.getCell(2);
-
-		numColunas = Integer.parseInt(cell.getStringCellValue());
-	
-		// Construindo o objeto sala
-		sala = new Sala(codigo,numFilas, numColunas);
-		
-		return sala;
-	}
-		//Obtem um objeto Sala e escreve na linha do objeto
-	private void instanciandoSalaExcel(Sala sala) throws IOException{
-		Row row;
-		Cell cell;
-		
-		row = this.folha.getRow(this.indiceFinal);
-		
-		cell = row.getCell(0);
-		cell.setCellValue(sala.getCodigo());
-		
-		cell = row.getCell(1);
-		cell.setCellValue(sala.getNumFilas());
-		
-		cell = row.getCell(2);
-		cell.setCellValue(sala.getNumColunas());
-		
-		FileOutputStream arquivo = new FileOutputStream(this.nomeArquivo);
-		wb.write(arquivo);
-		arquivo.close();
-		
-		this.indiceFinal++;
 	}
 
+	@Override
+	public void remover(String nome) throws SalaNaoEncontradaException,
+	FileNotFoundException, IOException {
+		int indice = buscarIndice(nome);//obtém o índice do filme
+
+		this.folha.removeRow(this.folha.getRow(indice));//Remove a linha da planilha deixando como nula	
+
+		gravar();
+	}
 
 	@Override
 	public void atualizar(Sala sala) throws SalaNaoEncontradaException,
-			FileNotFoundException, IOException {
-		remover(sala.getCodigo());
-		try {
-			inserir(sala);
-		} catch (SalaConflitanteException e) {
-			e.printStackTrace();
-		}
-	}
+	FileNotFoundException, IOException {
+		remover(sala.getCodigo());//Remove a versão antiga
+		inserir(sala);//Insere a nova
+		gravar();
 
+	}
 
 	@Override
 	public boolean temSala(String nome) {
 		boolean retorno = true;
+
 		try {
-			buscar(nome);
+			buscarIndice(nome);
 		} catch (SalaNaoEncontradaException e) {
 			retorno = false;
 		}
+
 		return retorno;
 	}
 
-} // Fim da classe Repositorio Excel
+	@Override
+	public IteratorSala getIterator() throws SalaNaoEncontradaException {
+		return  new IteratorSalaExcel(this.folha);	
+	}
+
+	private int buscarIndice(String codigo) throws SalaNaoEncontradaException{
+		int retorno;
+
+		int apoio = this.folha.getLastRowNum()+2;//Obtém a índice após a ultima linha
+		boolean continua = true;//Checa até a primeira remoção
+		int i;
+		for(i = 0; i< apoio && continua; i++){
+			Row row = this.folha.getRow(i);
+			if(row!=null&&row.getCell(0).getStringCellValue().equals(codigo)){
+				//Se a linha não for nula checa a celula de nome, se corresponder finalliza a busca
+				continua = false;
+			}
+		}
+		if(i==apoio) i = 0;//Checa se não foi encontrado
+		retorno = i-1;//Calcula o índice
+		if(retorno == -1)throw new SalaNaoEncontradaException();//Se não foi encontrado ou não existem dados retorna uma excessão
+		return retorno;
+	}
+
+	private void gravar() throws IOException{
+		//Finaliza as gravações no arquivo
+		FileOutputStream arquivo = new FileOutputStream(this.nomeArquivo);
+		wb.write(arquivo);
+		arquivo.close();
+	}
+
+}

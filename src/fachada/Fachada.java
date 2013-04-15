@@ -87,8 +87,8 @@ public class Fachada {
 		}else if(tipo.equalsIgnoreCase("Arquivo")){
 
 			repFilme = new RepositorioFilmeExcel("meuCine/repositorios/filmes.xls", "Filmes");
-			repSessao = new RepositorioSessaoExcel("meuCine/repositorios/sessoes.xls", "Sessoes");
-			repSala = new RepositorioSalaExcel("meuCine/repositorios/salas.xls", "Salas","Cadeiras");
+			repSessao = new RepositorioSessaoExcel("meuCine/repositorios/sessoes.xls", "Sessoes", "Salas");
+			repSala = new RepositorioSalaExcel("meuCine/repositorios/salas.xls", "Salas");
 
 		}else if(tipo.equalsIgnoreCase("Array")){
 
