@@ -1,16 +1,12 @@
 package gui.frames;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLayeredPane;
-import java.awt.CardLayout;
 import javax.swing.JButton;
 
 import fachada.Fachada;
@@ -19,6 +15,7 @@ import fachada.FalhaNaConfiguracaoException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.awt.Toolkit;
 
 
 public class TelaPrincipal extends JFrame {
@@ -52,6 +49,7 @@ public class TelaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/imagem/pipoca.png")));
 		setTitle("MeuCine");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

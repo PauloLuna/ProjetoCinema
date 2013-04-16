@@ -9,7 +9,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import repositorio.sala.ManipuladorSalaExcel;
 import repositorio.sessao.TipoDeObjetoNaoSuportado;
 
-import negocio.base.Cadeira;
 import negocio.base.Filme;
 import negocio.base.Sala;
 import negocio.base.Sessao;

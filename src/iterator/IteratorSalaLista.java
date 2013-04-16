@@ -2,8 +2,6 @@ package iterator;
 
 import repositorio.sala.RepositorioSalaLista;
 import negocio.base.Sala;
-import negocio.base.Sala;
-import negocio.base.Sessao;
 
 public class IteratorSalaLista implements IteratorSala {
 	

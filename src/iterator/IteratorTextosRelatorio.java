@@ -3,8 +3,6 @@ package iterator;
 import java.io.Serializable;
 import java.util.Iterator;
 
-import negocio.base.Relatorio;
-
 import repositorio.relatorio.RepositorioTextosRelatorios;
 import repositorio.relatorio.TextoRelatorio;
 

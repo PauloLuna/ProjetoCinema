@@ -1,12 +1,10 @@
 package iterator;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import repositorio.sala.ManipuladorSalaExcel;
 
-import negocio.base.Cadeira;
 import negocio.base.Sala;
 
 public class IteratorSalaExcel implements IteratorSala {
