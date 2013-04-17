@@ -133,7 +133,7 @@ public class PanelSala extends JPanel {
 			Sala sala = itr.next();
 			String codigo = sala.getCodigo();
 			String numCadeiras = ""+(sala.getNumFilas()*sala.getNumColunas());
-			String numCadeirasQuebradas = "";
+			String numCadeirasQuebradas = ""+sala.getNumCadeirasQuebradas();
 			modeloTabela.addRow(new Object[]{codigo, numCadeiras, numCadeirasQuebradas});
 		}
 

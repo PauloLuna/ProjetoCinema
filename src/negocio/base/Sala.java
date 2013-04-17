@@ -100,4 +100,14 @@ public class Sala {
 		return compareTo;
 	}// Fim do método compareTo
 	
+	public int getNumCadeirasQuebradas(){
+		int retorno = 0;
+		for(int i = 0; i< this.numFilas; i++){
+			for(int j = 0; j< this.numColunas; j++){
+				if(cadeiras[i][j].getCadeiraQuebrada()) retorno++;
+			}
+		}
+		return retorno;
+	}
+	
 } // Fim da classe SALA

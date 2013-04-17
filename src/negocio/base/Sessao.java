@@ -18,7 +18,7 @@ public abstract class Sessao {
 	
 	public boolean checaConflito(Sessao sessao) {
 		boolean retorno=false;
-		if(this.sala.equals(sessao.getSala())){
+		if(this.sala.getCodigo().equals(sessao.getSala().getCodigo())){
 			retorno = true;
 			if(sessao.horaFim.compareTo(this.horaInicio)<=0){
 				retorno = false;
